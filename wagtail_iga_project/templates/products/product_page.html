@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}template-productpage{% endblock %}
+
+{% block content %}
+
+    <h1>{{ page.title }}</h1>
+
+    <hr>
+
+{% with categories=page.categories %}
+    {% if categories %}
+        <h3>Category:</h3>
+
+        <ul>
+
+                <li style="display: inline">
+                    {% image categories.icon fill-32x32 style="vertical-align: middle" %}
+                    {{ categories.name }}
+                </li>
+
+        </ul>
+    {% endif %}
+{% endwith %}
+<hr>
+
+
+    <div class="intro">{{ page.intro }}</div>
+    <hr>
+
+    {{ page.body|richtext }}
+
+    {% for item in page.gallery_images.all %}
+        <div style="float: left; margin: 10px">
+            {% image item.image fill-320x240 %}
+            <p>{{ item.caption }}</p>
+        </div>
+    {% endfor %}
+
+
+    {% if page.tags.all.count %}
+    <div class="tags">
+        <h3>Tags</h3>
+        {% for tag in page.tags.all %}
+            <a href="{% slugurl 'tags' %}?tag={{ tag }}"><button type="button">{{ tag }}</button></a>
+        {% endfor %}
+    </div>
+{% endif %}
+
+
+    <p><a href="{{ page.get_parent.url }}">Return to blog</a></p>
+
+{% endblock %}
