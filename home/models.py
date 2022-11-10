@@ -6,8 +6,10 @@ from wagtail.models import Page
 
 
 class HomePage(Page):
-    subpage_types = ['products.ProductIndexPage', 'products.ProductTagIndexPage']
-    parent_page_types = []
+    subpage_types = ['products.ProductIndexPage',
+                     'products.ProductTagIndexPage',
+                     ]
+    # parent_page_types = []
 
     # редактор текста
     txt_edit = RichTextField(

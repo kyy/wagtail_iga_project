@@ -9,12 +9,11 @@ from wagtail.fields import RichTextField
 from wagtail.models import Page, Orderable
 from wagtail.search import index
 from wagtail.snippets.models import register_snippet
-from wagtail.core.fields import StreamField
-from wagtail.core.blocks import RichTextBlock
-from wagtail.snippets.edit_handlers import SnippetChooserPanel
+
 
 class ProductIndexPage(Page):
     subpage_types = ['ProductPage']
+    parent_page_types = ['home.HomePage']
 
     # Обновляем контекст для внесения только опубликованных постов в обратном хронологическом порядке
     def get_context(self, request):
@@ -40,6 +39,7 @@ class ProductPageTag(TaggedItemBase):
 
 class ProductPage(Page):
     subpage_types = []
+    parent_page_types = ['products.ProductIndexPage']
 
     # даем доступ к изображениям на странице
     def main_image(self):
@@ -70,7 +70,6 @@ class ProductPage(Page):
     ]
 
 
-
 class BlogPageGalleryImage(Orderable):
     page = ParentalKey(ProductPage, on_delete=models.CASCADE, related_name='gallery_images')
     image = models.ForeignKey(
@@ -86,6 +85,8 @@ class BlogPageGalleryImage(Orderable):
 
 class ProductTagIndexPage(Page):
     subpage_types = []
+    parent_page_types = ['home.HomePage']
+
 
     def get_context(self, request):
         # Фильтр по тегам
