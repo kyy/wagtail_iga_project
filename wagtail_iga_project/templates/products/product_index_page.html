@@ -6,19 +6,63 @@
 {% block content %}
     <h1>{{ page.title }}</h1>
 
-    <div class="intro">{{ page.intro|richtext }}</div>
+{#    <div class="intro">{{ page.intro|richtext }}</div>#}
+{##}
+{#{% for post in productpages %}#}
+{#    {% with post=post.specific %}#}
+{##}
+{#        <h2><a href="{% pageurl post %}">{{ post.title }}</a></h2>#}
+{##}
+{#        {% with post.main_image as main_image %}#}
+{#            {% if main_image %}{% image main_image fill-160x100 %}{% endif %}#}
+{#        {% endwith %}#}
+{##}
+{#        <p>{{ post.intro }}</p>#}
+{#        {{ post.body|richtext }}#}
+{##}
+{#    {% endwith %}#}
+{#{% endfor %}#}
 
-    {% for post in productpages %}
-    {% with post=post.specific %}
-        <h2><a href="{% pageurl post %}">{{ post.title }}</a></h2>
 
-        {% with post.main_image as main_image %}
-            {% if main_image %}{% image main_image fill-160x100 %}{% endif %}
-        {% endwith %}
+    <div class="products-cards">
+        <div class="level is-hidden-mobile">
+            <div class="level-left">
+                <div class="level-item">
+                    <h2 class="title is-6 has-text-left">{{ page.intro|richtext }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="columns is-multiline">
+            {% for post in productpages %}
+                {% with post=post.specific %}
+                    <div class="column is-12-mobile is-6-tablet is-3-desktop">
+                        <div class="card is-shadowless is-slightly-rounded">
+                            <div class="card-image">
+                                {% with post.main_image as main_image %}
+                                    {% if main_image %}
+                                <figure class="image">
+                                    {% image main_image fill-160x100 %}
+                                </figure>
+                                    {% endif %}
+                                {% endwith %}
+                            </div>
+                        <div class="card-content">
+                            <div class="content"><p>
+                                <span class="title is-4 is-capitalized">
+                                    <a href="{% pageurl post %}" class="has-text-black">
+                                        {{ post.title }}
+                                    </a></span><br>
+                                <span class="m-t-tiny block">{{ post.categories.name }}</span></p> {{ post.intro }} <p class="venue-data-sm"></p>
 
-        <p>{{ post.intro }}</p>
-        {{ post.body|richtext }}
-    {% endwith %}
-{% endfor %}
- 
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                {% endwith %}
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}
+
+
+

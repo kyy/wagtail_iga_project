@@ -1,0 +1,16 @@
+.products-cards {
+    background-color: #f7f7f7;
+    margin-bottom: 4em;
+    padding: 2em;
+    border-radius: 0.5em;
+}
+
+
+.card-content {
+    padding: 1.5rem;
+}
+
+.m-t-tiny {
+    margin-top: .125rem;
+}
+
