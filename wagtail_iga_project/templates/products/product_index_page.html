@@ -52,7 +52,7 @@
                                     <a href="{% pageurl post %}" class="has-text-black">
                                         {{ post.title }}
                                     </a></span><br>
-                                <span class="m-t-tiny block">{{ post.categories.name }}</span></p> {{ post.intro }} <p class="venue-data-sm"></p>
+                                <span class="m-t-tiny block"><a href="?category={{ post.categories.name }}">{{ post.categories.name }}</a></span></p> {{ post.intro }} <p class="venue-data-sm"></p>
 
                             </div>
                         </div>

@@ -9,6 +9,8 @@ from wagtail.fields import RichTextField
 from wagtail.models import Page, Orderable
 from wagtail.search import index
 from wagtail.snippets.models import register_snippet
+from wagtail.signals import page_published
+
 
 
 class ProductIndexPage(Page):
@@ -18,16 +20,35 @@ class ProductIndexPage(Page):
     # Обновляем контекст для внесения только опубликованных постов в обратном хронологическом порядке
     def get_context(self, request):
         context = super().get_context(request)
-        productpages = self.get_children().live().order_by('-first_published_at')
+        category = request.GET.get('category')
+
+        try:
+            # Look for the blog category by its slug.
+            cat = ProductPage.objects.get(slug=category)
+        except Exception:
+            # Blog category doesnt exist (ie /blog/category/missing-category/)
+            # Redirect to self.url, return a 404.. that's up to you!
+            cat = None
+
+        if cat is None:
+            # This is an additional check.
+            # If the category is None, do something. Maybe default to a particular category.
+            # Or redirect the user to /blog/ ¯\_(ツ)_/¯
+            pass
+
+        if category:
+            productpages = ProductPage.objects.live().filter(categories__name=category).order_by('-first_published_at')
+        else:
+            productpages = self.get_children().live().order_by('-first_published_at')
         context['productpages'] = productpages
         return context
+
 
     intro = RichTextField(blank=True)
 
     content_panels = Page.content_panels + [
         FieldPanel('intro', classname="full")
     ]
-
 
 class ProductPageTag(TaggedItemBase):
     content_object = ParentalKey(
