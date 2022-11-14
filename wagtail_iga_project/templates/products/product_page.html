@@ -40,12 +40,18 @@
 
 
     {% if page.tags.all.count %}
-    <div class="tags">
+
         <h3>Tags</h3>
+
+    <div class="tags">
         {% for tag in page.tags.all %}
-            <a href="{% slugurl 'tags' %}?tag={{ tag }}"><button type="button">{{ tag }}</button></a>
+
+            <a class="tag is-info" href="{% slugurl 'tags' %}?tag={{ tag }}">{{ tag }}</a>
+
         {% endfor %}
+
     </div>
+
 {% endif %}
 
 
