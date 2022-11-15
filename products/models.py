@@ -1,3 +1,5 @@
+from itertools import count
+
 from django import forms
 from django.db import models
 from django.utils.safestring import mark_safe
@@ -27,24 +29,25 @@ class ProductIndexPage(RoutablePageMixin, Page):
     subpage_types = ['ProductPage']
     parent_page_types = ['home.HomePage']
 
-
     @path('')
     def current_page(self, request):
         productpages = self.get_children().live().order_by('-first_published_at')
-        all_categories = ProductPage.objects.live()
-        print(all_categories)
+        # отслеживаем в меню только активные категории
+        all_products_live_id = ProductPage.objects.live().values_list('categories_id', flat=True)
+        list_live_id_uniqe = list(set(all_products_live_id))
+        live_categories = ProductCategory.objects.filter(id__in=list_live_id_uniqe)
+
         return self.render(request, context_overrides={
             'title': "Вся продукция",
             'productpages': productpages,
-            'all_categories': all_categories,
+            'live_categories': live_categories,
         })
-
 
     @path('cat/<str:cat_name>/', name='cat_url')
     def category_page(self, request, cat_name=None):
         productpages = ProductPage.objects.live().filter(categories__slug__iexact=cat_name).order_by('-first_published_at')
         return self.render(request, context_overrides={
-            'title': "Текущая %s" % cat_name,
+            'title': "Выбрана категория - %s" % cat_name,
             'productpages': productpages,
         })
 
@@ -219,6 +222,7 @@ class ProductCategory(models.Model):
     class Meta:
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории каталога продукции'
+
 
 
 

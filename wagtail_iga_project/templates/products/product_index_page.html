@@ -6,11 +6,10 @@
 {% block content %}
     <h1>{{ page.title }}</h1>
 
-    {% for post in all_categories %}
+    {{ title }}
 
-
-       <h2><a href="{{ self.url }}cat/{{ post.categories.slug }}">{{ post.categories.name }}</a></h2>
-
+    {% for post in live_categories %}
+        <h2><a href="{{ self.url }}cat/{{ post.slug }}">{{ post }}</a></h2>
     {% endfor %}
 
 
