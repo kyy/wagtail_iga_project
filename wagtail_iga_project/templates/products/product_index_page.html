@@ -1,10 +1,18 @@
 {% extends "base.html" %}
-{% load wagtailcore_tags wagtailimages_tags %}
+{% load wagtailcore_tags wagtailimages_tags wagtailroutablepage_tags %}
  
 {% block body_class %}template-productindexpage{% endblock %}
  
 {% block content %}
     <h1>{{ page.title }}</h1>
+
+    {% for post in all_categories %}
+
+
+       <h2><a href="{{ self.url }}cat/{{ post.categories.slug }}">{{ post.categories.name }}</a></h2>
+
+    {% endfor %}
+
 
 {#    <div class="intro">{{ page.intro|richtext }}</div>#}
 {##}
@@ -40,9 +48,12 @@
                             <div class="card-image">
                                 {% with post.main_image as main_image %}
                                     {% if main_image %}
-                                <figure class="image">
-                                    {% image main_image fill-160x100 %}
-                                </figure>
+                                         {% image main_image fill-160x100 as main_image %}
+                                            <figure class="image">
+                                            <a href="{% pageurl post %}">
+                                            <img src="{{ main_image.url }}" alt="{{ post.title }}"></a>
+                                            <figcaption>{{ post.intro}}</figcaption>
+                                            </figure>
                                     {% endif %}
                                 {% endwith %}
                             </div>
@@ -52,8 +63,7 @@
                                     <a href="{% pageurl post %}" class="has-text-black">
                                         {{ post.title }}
                                     </a></span><br>
-                                <span class="m-t-tiny block"><a href="?category={{ post.categories.name }}">{{ post.categories.name }}</a></span></p> {{ post.intro }} <p class="venue-data-sm"></p>
-
+                                <span class="m-t-tiny block"><a href="{{ self.url }}cat/{{ post.categories.slug }}">{{ post.categories.name }}</a></span></p> {{ post.intro }} <p class="venue-data-sm"></p>
                             </div>
                         </div>
                         </div>

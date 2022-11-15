@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     'wagtail.contrib.settings',
     'wagtail.contrib.styleguide',
+    "wagtail.contrib.routable_page",
 ]
 
 MIDDLEWARE = [

@@ -6,10 +6,12 @@ from modelcluster.fields import ParentalKey
 from taggit.models import TaggedItemBase
 from wagtail.admin.edit_handlers import FieldPanel
 from wagtail.admin.panels import InlinePanel
+from wagtail.contrib.routable_page.models import RoutablePageMixin, path
 from wagtail.fields import RichTextField
 from wagtail.models import Page, Orderable
 from wagtail.search import index
 from wagtail.snippets.models import register_snippet
+from django.shortcuts import render
 
 
 
@@ -21,36 +23,59 @@ links = {'new_product_category':
 }
 
 
-class ProductIndexPage(Page):
+class ProductIndexPage(RoutablePageMixin, Page):
     subpage_types = ['ProductPage']
     parent_page_types = ['home.HomePage']
 
-    # Обновляем контекст для внесения только опубликованных постов в обратном хронологическом порядке
-    def get_context(self, request):
-        context = super().get_context(request)
-        category = request.GET.get('category')
 
-        try:
-            # Look for the blog category by its slug.
-            cat = ProductPage.objects.get(slug=category)
-        except Exception:
-            # Blog category doesnt exist (ie /blog/category/missing-category/)
-            # Redirect to self.url, return a 404.. that's up to you!
-            cat = None
+    @path('')
+    def current_page(self, request):
+        productpages = self.get_children().live().order_by('-first_published_at')
+        all_categories = ProductPage.objects.live()
+        print(all_categories)
+        return self.render(request, context_overrides={
+            'title': "Вся продукция",
+            'productpages': productpages,
+            'all_categories': all_categories,
+        })
 
-        if cat is None:
-            # This is an additional check.
-            # If the category is None, do something. Maybe default to a particular category.
-            # Or redirect the user to /blog/ ¯\_(ツ)_/¯
-            pass
 
-        if category:
-            productpages = ProductPage.objects.live().filter(categories__name=category).order_by('-first_published_at')
-        else:
-            productpages = self.get_children().live().order_by('-first_published_at')
-        context['productpages'] = productpages
-        return context
+    @path('cat/<str:cat_name>/', name='cat_url')
+    def category_page(self, request, cat_name=None):
+        productpages = ProductPage.objects.live().filter(categories__slug__iexact=cat_name).order_by('-first_published_at')
+        return self.render(request, context_overrides={
+            'title': "Текущая %s" % cat_name,
+            'productpages': productpages,
+        })
 
+
+
+    # # Обновляем контекст для внесения только опубликованных постов в обратном хронологическом порядке
+    # def get_context(self, request):
+    #     context = super().get_context(request)
+    #     category = request.GET.get('category')
+    #
+    #     try:
+    #         # Look for the blog category by its slug.
+    #         cat = ProductPage.objects.get(slug=category)
+    #     except Exception:
+    #         # Blog category doesnt exist (ie /blog/category/missing-category/)
+    #         # Redirect to self.url, return a 404.. that's up to you!
+    #         cat = None
+    #
+    #     if cat is None:
+    #         # This is an additional check.
+    #         # If the category is None, do something. Maybe default to a particular category.
+    #         # Or redirect the user to /blog/ ¯\_(ツ)_/¯
+    #         pass
+    #
+    #     if category:
+    #         productpages = ProductPage.objects.live().filter(categories__name=category).order_by('-first_published_at')
+    #     else:
+    #         productpages = self.get_children().live().order_by('-first_published_at')
+    #     context['productpages'] = productpages
+    #     return context
+    #
     intro = RichTextField(blank=True)
     content_panels = Page.content_panels + [
         FieldPanel('intro', classname="full")
@@ -63,6 +88,9 @@ class ProductPageTag(TaggedItemBase):
         related_name='tagged_items',
         on_delete=models.CASCADE
     )
+    class Meta:
+        verbose_name = 'Тег'
+        verbose_name_plural = 'Теги'
 
 
 class ProductPage(Page):
@@ -73,6 +101,7 @@ class ProductPage(Page):
     Page._meta.get_field("title").help_text = 'Данное имя может отображаться как заголовок.'
 
     # даем доступ к изображениям на странице
+
     def main_image(self):
         gallery_item = self.gallery_images.first()
         if gallery_item:
@@ -161,10 +190,13 @@ class ProductTagIndexPage(Page):
 @register_snippet
 class ProductCategory(models.Model):
     name = models.CharField(max_length=255, unique=True)
+    slug = models.SlugField(max_length=250, null=True, blank=True, unique=True)
     icon = models.ForeignKey(
         'wagtailimages.Image', null=True, blank=True,
         on_delete=models.SET_NULL, related_name='+'
     )
+
+    prepopulated_fields = {"slug": ("name",)}
 
     panels = [
         FieldPanel('name',
@@ -174,6 +206,10 @@ class ProductCategory(models.Model):
         FieldPanel('icon',
                    help_text='Выберите визуальный образ характеризующий категорию',
                    heading='Иконка категории'
+                   ),
+        FieldPanel('slug',
+                   help_text='ссылка категории',
+                   heading='Слаг'
                    ),
     ]
 
