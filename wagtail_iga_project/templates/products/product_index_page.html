@@ -8,9 +8,7 @@
 
     {{ title }}
 
-    {% for post in live_categories %}
-        <h2><a href="{{ self.url }}cat/{{ post.slug }}">{{ post }}</a></h2>
-    {% endfor %}
+
 
 
 {#    <div class="intro">{{ page.intro|richtext }}</div>#}
@@ -32,14 +30,22 @@
 
 <section class="section">
 <div class="products-cards">
+    <h1>{{ page.title }}</h1>
+
+    {{ title }}
+    {% for post in live_categories %}
+        <h2><a href="{{ self.url }}cat/{{ post.slug }}">{{ post }}</a></h2>
+    {% endfor %}
+</div>
+<div class="products-cards">
 <div class="level is-hidden-mobile">
    <div class="level-left">
       <div class="level-item">
          <h2 class="title is-6 has-text-left">{{ page.intro|richtext }}</h2>
       </div>
-      </div>
    </div>
 </div>
+
 <div class="columns is-multiline">
 {% for post in productpages %}
 {% with post=post.specific %}
@@ -73,8 +79,8 @@
 </div>
 {% endwith %}
 {% endfor %}
-        </div>
-    </div>
+</div>
+</div>
     </section>
 {% endblock %}
 
