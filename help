@@ -1,0 +1,29 @@
+https://graphviz.org/download/
+                      -reboot PC
+pip install pydotplus
+pip install pygraphviz
+pip install graphviz
+
+-------------------
+pip install ipython
+
+pip install django-extensions
+                    https://pypi.org/project/django-extensions/
+INSTALLED_APPS = (
+    ...
+    'django_extensions',
+    ...
+                    Generate (and view) a graphviz graph of app models:
+manage.py graph_models -a -o myapp_models.png
+
+                    Show URLS
+manage.py show_urls
+
+                    Check templates for rendering errors:
+manage.py validate_templates
+
+                    Run the enhanced django shell:
+manage.py shell_plus
+
+                    Run the enhanced django runserver, (requires Werkzeug install):
+manage.py runserver_plus

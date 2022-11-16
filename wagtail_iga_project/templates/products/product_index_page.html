@@ -30,47 +30,52 @@
 {#    {% endwith %}#}
 {#{% endfor %}#}
 
-
-    <div class="products-cards">
-        <div class="level is-hidden-mobile">
-            <div class="level-left">
-                <div class="level-item">
-                    <h2 class="title is-6 has-text-left">{{ page.intro|richtext }}</h2>
-                </div>
-            </div>
-        </div>
-        <div class="columns is-multiline">
-            {% for post in productpages %}
-                {% with post=post.specific %}
-                    <div class="column is-12-mobile is-6-tablet is-3-desktop">
-                        <div class="card is-shadowless is-slightly-rounded">
-                            <div class="card-image">
-                                {% with post.main_image as main_image %}
-                                    {% if main_image %}
-                                         {% image main_image fill-160x100 as main_image %}
-                                            <figure class="image">
-                                            <a href="{% pageurl post %}">
-                                            <img src="{{ main_image.url }}" alt="{{ post.title }}"></a>
-                                            <figcaption>{{ post.intro}}</figcaption>
-                                            </figure>
-                                    {% endif %}
-                                {% endwith %}
-                            </div>
-                        <div class="card-content">
-                            <div class="content"><p>
-                                <span class="title is-4 is-capitalized">
-                                    <a href="{% pageurl post %}" class="has-text-black">
-                                        {{ post.title }}
-                                    </a></span><br>
-                                <span class="m-t-tiny block"><a href="{{ self.url }}cat/{{ post.categories.slug }}">{{ post.categories.name }}</a></span></p> {{ post.intro }} <p class="venue-data-sm"></p>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                {% endwith %}
-            {% endfor %}
+<section class="section">
+<div class="products-cards">
+<div class="level is-hidden-mobile">
+   <div class="level-left">
+      <div class="level-item">
+         <h2 class="title is-6 has-text-left">{{ page.intro|richtext }}</h2>
+      </div>
+      </div>
+   </div>
+</div>
+<div class="columns is-multiline">
+{% for post in productpages %}
+{% with post=post.specific %}
+<div class="column is-12-mobile is-6-tablet is-3-desktop">
+   <div class="card is-shadowless is-slightly-rounded">
+      <div class="card-image">
+         {% with post.main_image as main_image %}
+         {% if main_image %}
+         {% image main_image fill-300x200 as main_image %}
+         <figure class="image">
+            <a href="{% pageurl post %}">
+            <img src="{{ main_image.url }}" alt="{{ post.title }}"></a>
+            <figcaption>{{ post.intro}}</figcaption>
+         </figure>
+         {% endif %}
+         {% endwith %}
+      </div>
+      <div class="card-content">
+         <div>
+            <p>
+               <span class="title is-4 is-capitalized">
+               <a href="{% pageurl post %}" class="has-text-black">
+               {{ post.title }}
+               </a></span><br>
+               <span class="m-t-tiny block"><a href="{{ self.url }}cat/{{ post.categories.slug }}">{{ post.categories.name }}</a></span>
+            </p>
+            <p class="intro">{{ post.intro }}</p>
+         </div>
+      </div>
+   </div>
+</div>
+{% endwith %}
+{% endfor %}
         </div>
     </div>
+    </section>
 {% endblock %}
 
 

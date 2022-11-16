@@ -35,7 +35,7 @@ class ProductIndexPage(RoutablePageMixin, Page):
         # отслеживаем в меню только активные категории
         all_products_live_id = ProductPage.objects.live().values_list('categories_id', flat=True)
         list_live_id_uniqe = list(set(all_products_live_id))
-        live_categories = ProductCategory.objects.filter(id__in=list_live_id_uniqe)
+        live_categories = ProductCategory.objects.filter(id__in=list_live_id_uniqe).order_by('-id')
 
         return self.render(request, context_overrides={
             'title': "Вся продукция",
@@ -121,7 +121,8 @@ class ProductPage(Page):
                                    null=True,
                                    blank=True,
                                    on_delete=models.SET_NULL,
-                                   related_name='name_category'
+                                   related_name='name_category',
+                                   verbose_name='Категория'
                                    )
 
     search_fields = Page.search_fields + [
@@ -155,6 +156,10 @@ class ProductPage(Page):
                     max_num=max_product_image_numbers
                     ),
     ]
+
+    class Meta:
+        verbose_name = 'Продукт'
+        verbose_name_plural = 'Продукция'
 
 
 class BlogPageGalleryImage(Orderable):
@@ -190,7 +195,7 @@ class ProductTagIndexPage(Page):
         return context
 
 
-@register_snippet
+
 class ProductCategory(models.Model):
     name = models.CharField(max_length=255, unique=True)
     slug = models.SlugField(max_length=250, null=True, blank=True, unique=True)
@@ -211,7 +216,7 @@ class ProductCategory(models.Model):
                    heading='Иконка категории'
                    ),
         FieldPanel('slug',
-                   help_text='ссылка категории',
+                   help_text='Cсылка категории',
                    heading='Слаг'
                    ),
     ]
