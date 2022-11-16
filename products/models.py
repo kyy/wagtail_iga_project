@@ -1,5 +1,3 @@
-from itertools import count
-
 from django import forms
 from django.db import models
 from django.utils.safestring import mark_safe
@@ -29,56 +27,32 @@ class ProductIndexPage(RoutablePageMixin, Page):
     subpage_types = ['ProductPage']
     parent_page_types = ['home.HomePage']
 
+    # отслеживаем в меню только активные категории
+    def live_categories(self):
+        all_products_live_id = ProductPage.objects.live().values_list('categories_id', flat=True)
+        list_live_id_uniqe = list(set(all_products_live_id))
+        live_cat = ProductCategory.objects.filter(id__in=list_live_id_uniqe).order_by('-id')
+        return live_cat
+
     @path('')
     def current_page(self, request):
         productpages = self.get_children().live().order_by('-first_published_at')
-        # отслеживаем в меню только активные категории
-        all_products_live_id = ProductPage.objects.live().values_list('categories_id', flat=True)
-        list_live_id_uniqe = list(set(all_products_live_id))
-        live_categories = ProductCategory.objects.filter(id__in=list_live_id_uniqe).order_by('-id')
-
         return self.render(request, context_overrides={
             'title': "Вся продукция",
             'productpages': productpages,
-            'live_categories': live_categories,
+            'live_categories': self.live_categories,
         })
 
     @path('cat/<str:cat_name>/', name='cat_url')
     def category_page(self, request, cat_name=None):
         productpages = ProductPage.objects.live().filter(categories__slug__iexact=cat_name).order_by('-first_published_at')
         return self.render(request, context_overrides={
-            'title': "Выбрана категория - %s" % cat_name,
+            'title': "%s" % cat_name,
             'productpages': productpages,
+            'live_categories': self.live_categories,
         })
 
 
-
-    # # Обновляем контекст для внесения только опубликованных постов в обратном хронологическом порядке
-    # def get_context(self, request):
-    #     context = super().get_context(request)
-    #     category = request.GET.get('category')
-    #
-    #     try:
-    #         # Look for the blog category by its slug.
-    #         cat = ProductPage.objects.get(slug=category)
-    #     except Exception:
-    #         # Blog category doesnt exist (ie /blog/category/missing-category/)
-    #         # Redirect to self.url, return a 404.. that's up to you!
-    #         cat = None
-    #
-    #     if cat is None:
-    #         # This is an additional check.
-    #         # If the category is None, do something. Maybe default to a particular category.
-    #         # Or redirect the user to /blog/ ¯\_(ツ)_/¯
-    #         pass
-    #
-    #     if category:
-    #         productpages = ProductPage.objects.live().filter(categories__name=category).order_by('-first_published_at')
-    #     else:
-    #         productpages = self.get_children().live().order_by('-first_published_at')
-    #     context['productpages'] = productpages
-    #     return context
-    #
     intro = RichTextField(blank=True)
     content_panels = Page.content_panels + [
         FieldPanel('intro', classname="full")
