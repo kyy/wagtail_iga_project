@@ -1,5 +1,5 @@
 .products-cards {
-    background-color: #f7f7f7;
+    background-color: #DEDEDEFF;
     margin-bottom: 4em;
     margin-top: -1.5em;
     padding: 2em;
@@ -27,14 +27,13 @@ figcaption {
     font-size: .9rem;
 }
 
-.main_title{
-    margin-top: 40px;
 
-}
+
+
 
 .content ul {
     list-style: disc outside;
-    margin-left: 0em;
+    margin-left: 1em;
     margin-top: 1em;
 }
 
@@ -46,7 +45,7 @@ figcaption {
     justify-content: space-between;
     overflow: hidden;
     white-space: nowrap;
-    margin-top: -40px;
+
 }
 
 .tabs ul {
@@ -62,6 +61,6 @@ figcaption {
 
 .tabs.is-boxed li.is-active a {
     background-color: #fff;
-    border-color: #f7f7f7;
+    border-color: #dedede;
     border-bottom-color: transparent!important;
 }

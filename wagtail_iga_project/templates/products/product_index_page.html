@@ -28,14 +28,15 @@
 
 <div class="tabs is-centered is-boxed is-medium">
     <ul>{% for post in live_categories %}
-        <li class="is-active">
+        <li {% if post.name == title %}class="is-active"{% endif %}>
             <a href="{{ self.url }}cat/{{ post.slug }}">
-                <span class="icon is-small">{% image post.icon fill-32x32 style="vertical-align: middle" %}</span>
+                <span class="icon is-small">{% image post.icon max-50x50 style="vertical-align: middle" %}</span>
                 <span>{{ post|upper }}</span>
             </a>
         </li>
         {% endfor %}
     </ul>
+
 </div>
 
 
