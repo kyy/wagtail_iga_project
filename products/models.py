@@ -46,8 +46,10 @@ class ProductIndexPage(RoutablePageMixin, Page):
     @path('cat/<str:cat_name>/', name='cat_url')
     def category_page(self, request, cat_name=None):
         productpages = ProductPage.objects.live().filter(categories__slug__iexact=cat_name).order_by('-first_published_at')
+        current_cat = self.live_categories().get(slug=cat_name).name
+
         return self.render(request, context_overrides={
-            'title': "%s" % cat_name,
+            'title': "%s" % current_cat,
             'productpages': productpages,
             'live_categories': self.live_categories,
         })
