@@ -5,31 +5,16 @@
  
 {% block content %}
 
-
-{#    <div class="intro">{{ page.intro|richtext }}</div>#}
-{##}
-{#{% for post in productpages %}#}
-{#    {% with post=post.specific %}#}
-{##}
-{#        <h2><a href="{% pageurl post %}">{{ post.title }}</a></h2>#}
-{##}
-{#        {% with post.main_image as main_image %}#}
-{#            {% if main_image %}{% image main_image fill-160x100 %}{% endif %}#}
-{#        {% endwith %}#}
-{##}
-{#        <p>{{ post.intro }}</p>#}
-{#        {{ post.body|richtext }}#}
-{##}
-{#    {% endwith %}#}
-{#{% endfor %}#}
-
-
-<div class="main_title is-hidden-mobile"><h2 class="subtitle is-3">{{ title|upper }}</h2></div>
-
-<div class="tabs is-centered is-boxed is-medium">
-    <ul>{% for post in live_categories %}
+<div class="tabs is-centered is-boxed is-toggle is-medium is-hidden-mobile">
+    <ul><li {% if  title == 'All' %}class="is-active"{% endif %}>
+            <a href="{% slugurl 'products' %}">
+                <span class="icon is-small">{% image post.icon max-50x50 style="vertical-align: middle" %}</span>
+                <span>ALL</span>
+            </a>
+        </li>
+        {% for post in live_categories %}
         <li {% if post.name == title %}class="is-active"{% endif %}>
-            <a href="{{ self.url }}cat/{{ post.slug }}">
+            <a href="{{ page.url }}cat/{{ post.slug }}">
                 <span class="icon is-small">{% image post.icon max-50x50 style="vertical-align: middle" %}</span>
                 <span>{{ post|upper }}</span>
             </a>
@@ -37,9 +22,9 @@
         {% endfor %}
     </ul>
 
+
+
 </div>
-
-
 <div class="products-cards">
 <div class="level is-hidden-mobile">
    <div class="level-left">

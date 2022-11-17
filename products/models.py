@@ -38,7 +38,7 @@ class ProductIndexPage(RoutablePageMixin, Page):
     def current_page(self, request):
         productpages = self.get_children().live().order_by('-first_published_at')
         return self.render(request, context_overrides={
-            'title': "Вся продукция",
+            'title': "All",
             'productpages': productpages,
             'live_categories': self.live_categories,
         })

@@ -29,8 +29,6 @@ figcaption {
 
 
 
-
-
 .content ul {
     list-style: disc outside;
     margin-left: 1em;
@@ -45,6 +43,7 @@ figcaption {
     justify-content: space-between;
     overflow: hidden;
     white-space: nowrap;
+    padding-top: 20px;
 
 }
 
@@ -59,8 +58,33 @@ figcaption {
     justify-content: flex-start;
 }
 
-.tabs.is-boxed li.is-active a {
-    background-color: #fff;
-    border-color: #dedede;
-    border-bottom-color: transparent!important;
+
+.tabs.is-toggle li.is-active a {
+    background-color: #DEDEDEFF;
+    border-color: #DEDEDEFF;
+    color: #818181;
+    z-index: 1;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+}
+
+.tabs.is-toggle li:first-child a {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+}
+
+.tabs.is-toggle li:last-child a {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+
+}
+
+
+.tabs.is-boxed a {
+    border: 0;
+    border-radius: 10px 10px 0 0;
 }
