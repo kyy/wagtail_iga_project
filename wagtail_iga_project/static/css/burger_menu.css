@@ -80,7 +80,7 @@ html, body {
 }
 
 /*классический вариант: @media (max-width:767px), я беру с запасом*/
-@media (max-width:800px) {
+@media (max-width:768px) {
   body.lock {
     overflow: hidden;
   }
@@ -174,12 +174,3 @@ html, body {
   }
 }
 
-.content {
-  padding: 100px 0 0 0;
-}
-
-@media (max-width:800px) {
-  .content {
-    padding: 70px 0 0 0;
-  }
-}

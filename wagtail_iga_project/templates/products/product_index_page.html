@@ -4,12 +4,6 @@
 {% block body_class %}template-productindexpage{% endblock %}
  
 {% block content %}
-    <h1></h1>
-    <h1></h1>
-
-
-
-
 
 
 {#    <div class="intro">{{ page.intro|richtext }}</div>#}
@@ -29,21 +23,26 @@
 {#    {% endwith %}#}
 {#{% endfor %}#}
 
-<section class="section">
-<div class="column is-full">
-    <h2 class="subtitle is-3">{{ title|upper }}</h2>
-<nav class="breadcrumb is-medium is-hidden-mobile">
+
+<div class="main_title is-hidden-mobile"><h2 class="subtitle is-3">{{ title|upper }}</h2></div>
+
+<div class="tabs is-centered is-boxed is-medium">
     <ul>{% for post in live_categories %}
-        <li><a href="{{ self.url }}cat/{{ post.slug }}">{{ post|upper }}</a></li>
+        <li>
+            <a href="{{ self.url }}cat/{{ post.slug }}">
+                <span class="icon is-small">{% image post.icon fill-32x32 style="vertical-align: middle" %}</span>
+                <span>{{ post|upper }}</span>
+            </a>
+        </li>
+
+
         {% endfor %}
+
     </ul>
-</nav>
-
-
-
-
-
 </div>
+
+
+
 <div class="products-cards">
 <div class="level is-hidden-mobile">
    <div class="level-left">
@@ -88,7 +87,7 @@
 {% endfor %}
 </div>
 </div>
-    </section>
+
 {% endblock %}
 
 
