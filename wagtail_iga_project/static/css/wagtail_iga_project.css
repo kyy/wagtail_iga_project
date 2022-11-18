@@ -1,14 +1,28 @@
+
+body {
+    color: #4a4a4a;
+    font-size: 1em;
+    font-weight: 400;
+    line-height: 1.15;
+}
+
+
+.card {
+    background-color: #f3f3f3;
+    border-radius: 0.25rem;
+    box-shadow: 0 0.5em 1em -0.125em rgb(10 10 10 / 10%), 0 0 0 1px rgb(10 10 10 / 2%);
+    color: #4a4a4a;
+    max-width: 100%;
+    position: relative;
+}
+
 .products-cards {
     background-color: #DEDEDEFF;
     margin-bottom: 4em;
     margin-top: -1.5em;
-    padding: 2em;
-
+    padding: 1em;
 }
 
-.card-content {
-    padding: 1.5rem;
-}
 
 .m-t-tiny {
     margin-top: .125rem;
@@ -16,8 +30,8 @@
 
 
 figcaption {
-    background-color: #222;
-    color: #fff;
+    background-color: #dcdcdd;
+    color: #0a0a0b;
     font: italic smaller sans-serif;
     padding: 3px;
     text-align: center;
@@ -29,11 +43,6 @@ figcaption {
 
 
 
-.content ul {
-    list-style: disc outside;
-    margin-left: 1em;
-    margin-top: 1em;
-}
 
 .tabs {
     -webkit-overflow-scrolling: touch;
@@ -43,7 +52,7 @@ figcaption {
     justify-content: space-between;
     overflow: hidden;
     white-space: nowrap;
-    padding-top: 20px;
+    padding-top: 40px;
 
 }
 
@@ -88,3 +97,5 @@ figcaption {
     border: 0;
     border-radius: 10px 10px 0 0;
 }
+
+
