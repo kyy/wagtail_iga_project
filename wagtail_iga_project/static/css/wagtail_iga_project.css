@@ -98,4 +98,15 @@ figcaption {
     border-radius: 10px 10px 0 0;
 }
 
+ a {
+    color: #0075B2; /* Цвет обычной ссылки */
+    text-decoration: none; /* Убираем подчёркивание у ссылок */
+   }
 
+   a:hover {
+    color: #525252; /* Цвет ссылки при наведении */
+    text-decoration: underline; /* Добавляем подчёркивание */
+   }
+.category_menu:hover{
+    text-decoration: none;
+}

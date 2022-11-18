@@ -45,7 +45,7 @@ html, body {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: #412f57;
+  background-color: #3a3a3a;
   z-index: 2;
 }
 
@@ -152,7 +152,7 @@ html, body {
     height: 100%;
 /*для прокрутки меню, когда оно не помещается в экран*/
     overflow: auto;
-    background-color: darkcyan;
+    background-color: #464646;
     padding: 70px 10px 20px 10px;
     transition: all 0.3s ease 0s;
   }
@@ -171,6 +171,12 @@ html, body {
 
   .header__link {
     font-size: 24px;
+    color: #efefef
   }
 }
 
+.header__link:hover {
+    color: #c5c5c5; /* Цвет ссылки при наведении */ /* Добавляем подчёркивание */
+    text-decoration: none;
+
+}

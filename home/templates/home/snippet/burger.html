@@ -1,0 +1,41 @@
+{% load wagtailcore_tags static %}
+
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/burger_menu.css' %}">
+{% endblock %}
+{% block extra_js %}
+    <script src="{% static 'js/burger_menu.js' %}"></script>
+{% endblock %}
+
+
+<div class="wrapper">
+    <header class="header">
+        <div class="container">
+            <div class="header__body">
+                <a href="{% pageurl page.get_site.root_page %}" class="header__logo">
+                <img src="https://yt3.ggpht.com/a/AGF-l78VbDg7oweokHwyGl9_iBnv6SaKZgWKHr1lmA=s288-c-k-c0xffffffff-no-rj-mo" alt="">
+                </a>
+                <div class="header__burger">
+                    <span></span>
+                </div>
+                <nav class="header__menu">
+                    <ul class="header__list">
+                        <li>
+                            <a href="#" class="header__link">О нас</a>
+                        </li>
+                        <li>
+                            <a href="{% slugurl 'products' %}" class="header__link">Продукция</a>
+                        </li>
+                        <li>
+                            <a href="#" class="header__link">Услуги</a>
+                        </li>
+                        <li>
+                            <a href="#" class="header__link">Контакты</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+</div>

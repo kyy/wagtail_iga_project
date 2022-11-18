@@ -1,5 +1,4 @@
 {% load static wagtailcore_tags wagtailuserbar %}
-
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -15,87 +14,30 @@
         </title>
         <meta name="description" content="" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-
         {# Force all links in the live preview panel to be opened in a new tab #}
         {% if request.in_preview_panel %}
         <base target="_blank">
         {% endif %}
-
-        {# Global stylesheets #}
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
         <link rel="stylesheet" type="text/css" href="{% static 'css/wagtail_iga_project.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'css/burger_menu.css' %}">
-
-
-        <script src="http://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
-        <script src="{% static 'js/burger_menu.js' %}"></script>
-        <script type="text/javascript" src="{% static 'js/wagtail_iga_project.js' %}"></script>
-
-
         {% block extra_css %}
-        {# Override this in templates to add extra stylesheets #}
+        {% endblock %}
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+        <script type="text/javascript" src="{% static 'js/wagtail_iga_project.js' %}"></script>
+        {% block extra_js %}
         {% endblock %}
     </head>
-
     <body class="{% block body_class %}{% endblock %}">
         {% wagtailuserbar %}
-
-
-  <div class="wrapper">
-    <header class="header">
-      <div class="container">
-        <div class="header__body">
-          <a href="#" class="header__logo">
-            <img src="https://yt3.ggpht.com/a/AGF-l78VbDg7oweokHwyGl9_iBnv6SaKZgWKHr1lmA=s288-c-k-c0xffffffff-no-rj-mo" alt="">
-          </a>
-        <div class="header__burger">
-          <span></span>
-        </div>
-        <nav class="header__menu">
-          <ul class="header__list">
-            <li>
-              <a href="#" class="header__link">Главное</a>
-            </li>
-            <li>
-              <a href="#" class="header__link">О нас</a>
-            </li>
-            <li>
-              <a href="#" class="header__link">Обратная связь</a>
-            </li>
-            <li>
-              <a href="#" class="header__link">Архив</a>
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </div>
-  </header>
-  </div>
-
-
-
-    <div class="section">
-    <div class="container">
-
-
-
-
-          {% block content %}
-
-        {% endblock %}
-
-
-
-        </div>
-        </div>
-
-
-
-                {% block footer %}
-                    {% include 'home/snippet/footer.html' %}
+        {% include 'home/snippet/burger.html' %}
+        <div class="section">
+            <div class="container">
+                {% block content %}
                 {% endblock %}
-
-
-</body>
+            </div>
+        </div>
+        {% block footer %}
+        {% include 'home/snippet/footer.html' %}
+        {% endblock %}
+    </body>
 </html>
