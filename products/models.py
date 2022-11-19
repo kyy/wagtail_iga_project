@@ -14,8 +14,6 @@ from wagtail.snippets.models import register_snippet
 from django.shortcuts import render
 
 
-
-
 #constants
 max_product_image_numbers = 5
 links = {'new_product_category':
@@ -35,6 +33,7 @@ class ProductIndexPage(RoutablePageMixin, Page):
         return live_cat
 
     @path('')
+    @path('all-categories/')
     def all_category_page(self, request):
         productpages = self.get_children().live().order_by('-first_published_at')
 
@@ -44,17 +43,23 @@ class ProductIndexPage(RoutablePageMixin, Page):
             'live_categories': self.live_categories,
         })
 
-    @path('cat/<str:cat_name>/', name='cat_url')
+    @path('<str:cat_name>/', name='cat_url')
     def current_category_page(self, request, cat_name=None):
-        productpages = ProductPage.objects.live().filter(categories__slug__iexact=cat_name).order_by('-first_published_at')
+        productpages = ProductPage.objects.live().filter(categories__slug__iexact=cat_name).order_by \
+            ('-first_published_at')
         current_cat = self.live_categories().get(slug=cat_name).name
-
         return self.render(request, context_overrides={
             'title': "%s" % current_cat,
             'productpages': productpages,
             'live_categories': self.live_categories,
         })
 
+    @path('<str:cat_name>/<str:prod_name>/')
+    def product_page(self, request, cat_name=None, prod_name=None):
+        product = ProductPage.objects.get(categories__slug__iexact=cat_name, slug=prod_name)
+        return self.render(request, context_overrides={
+            'product': product},
+            template="products/product_page.html",)
 
     intro = RichTextField(blank=True)
     content_panels = Page.content_panels + [
@@ -77,8 +82,9 @@ class ProductPage(Page):
     subpage_types = []
     parent_page_types = ['products.ProductIndexPage']
     page_description = "Пополните каталог используя эту страницу"
-
     Page._meta.get_field("title").help_text = 'Данное имя может отображаться как заголовок.'
+
+
 
     # даем доступ к изображениям на странице
 
@@ -114,16 +120,16 @@ class ProductPage(Page):
         FieldPanel('categories',
                    widget=forms.RadioSelect,
                    heading='Категория',
-                   help_text= mark_safe('Выберите категорию изделия. Если отсутствует подходящая, вы '
+                   help_text=mark_safe('Выберите категорию изделия. Если отсутствует подходящая, вы '
                                         'можете оставить поле пустым или'+links['new_product_category']+
                                         '<br>Располодение категорий: Фрагменты/Категории каталога продукции/...')
                    ),
         FieldPanel('intro',
-                   heading = 'Полное наименование изделия'
+                   heading='Полное наименование изделия'
                    ),
         FieldPanel('body',
                    heading='Полное описание',
-                   help_text ='Описание отображается только на индивидуальной странице.',
+                   help_text='Описание отображается только на индивидуальной странице.',
                    ),
         InlinePanel('gallery_images',
                     heading='Галерея',
@@ -160,7 +166,6 @@ class ProductTagIndexPage(Page):
     subpage_types = []
     parent_page_types = ['home.HomePage']
 
-
     def get_context(self, request):
         # Фильтр по тегам
         tag = request.GET.get('tag')
@@ -172,7 +177,6 @@ class ProductTagIndexPage(Page):
         return context
 
 
-
 class ProductCategory(models.Model):
     name = models.CharField(max_length=255, unique=True)
     slug = models.SlugField(max_length=250, null=True, blank=True, unique=True)
@@ -180,9 +184,7 @@ class ProductCategory(models.Model):
         'wagtailimages.Image', null=True, blank=True,
         on_delete=models.SET_NULL, related_name='+'
     )
-
     prepopulated_fields = {"slug": ("name",)}
-
     panels = [
         FieldPanel('name',
                    help_text='Данная категория будет доступна при пополнении каталога продукции',

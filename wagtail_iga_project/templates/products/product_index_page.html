@@ -11,7 +11,7 @@
         </li>
         {% for post in live_categories %}
         <li {% if post.name == title %}class="is-active"{% endif %}>
-        <a class="category_menu" href="{{ page.url }}cat/{{ post.slug }}">
+        <a class="category_menu" href="{{ page.url }}{{ post.slug }}">
         <span class="icon is-small">{% image post.icon max-50x50 style="vertical-align: middle" %}</span>
         <span>{{ post|upper }}</span>
         </a>
@@ -35,7 +35,7 @@
             <div class="card">
                 <div class="card-image"></div>
                 <figure class="image">
-                    <a href="{% pageurl post %}">
+                    <a href="{{ self.url }}{{ post.categories.slug }}/{{ post.slug }}">
                     <img src="{{ main_image.url }}" alt="Placeholder image"> </a>
                     <figcaption>{{ post.intro}}</figcaption>
                 </figure>
@@ -44,8 +44,8 @@
                 <div class="card-content">
                     <div class="media">
                         <div class="media-content">
-                            <p class="title is-4"><a href="{% pageurl post %}" class="has-text-black">{{ post.title }}</a></p>
-                            <p class="subtitle is-6"><a href="{{ self.url }}cat/{{ post.categories.slug }}">{{ post.categories.name }}</a></p>
+                            <p class="title is-4"><a href="{{ self.url }}{{ post.categories.slug }}/{{ post.slug }}" class="has-text-black">{{ post.title }}</a></p>
+                            <p class="subtitle is-6"><a href="{{ self.url }}{{ post.categories.slug }}">{{ post.categories.name }}</a></p>
                         </div>
                     </div>
                     <div class="content">
