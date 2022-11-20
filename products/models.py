@@ -16,6 +16,7 @@ from django.shortcuts import render
 
 #constants
 max_product_image_numbers = 5
+min_product_image_numbers = 1
 links = {'new_product_category':
              '<a target="_blank" href="/admin/snippets/products/productcategory/add/"> создать категорию.</a>',
 }
@@ -24,6 +25,7 @@ links = {'new_product_category':
 class ProductIndexPage(RoutablePageMixin, Page):
     subpage_types = ['ProductPage']
     parent_page_types = ['home.HomePage']
+    page_description = "корневая страница для каталога продукции, также откроется по запросу all-categories/"
 
     # отслеживаем в меню только активные категории
     def live_categories(self):
@@ -45,6 +47,7 @@ class ProductIndexPage(RoutablePageMixin, Page):
 
     @path('<str:cat_name>/', name='cat_url')
     def current_category_page(self, request, cat_name=None):
+
         productpages = ProductPage.objects.live().filter(categories__slug__iexact=cat_name).order_by \
             ('-first_published_at')
         current_cat = self.live_categories().get(slug=cat_name).name
@@ -54,12 +57,33 @@ class ProductIndexPage(RoutablePageMixin, Page):
             'live_categories': self.live_categories,
         })
 
-    @path('<str:cat_name>/<str:prod_name>/')
+    @path('<str:cat_name>/<str:prod_name>/', name='product_url')
     def product_page(self, request, cat_name=None, prod_name=None):
+
         product = ProductPage.objects.get(categories__slug__iexact=cat_name, slug=prod_name)
         return self.render(request, context_overrides={
-            'product': product},
+            'product': product,
+            self.path: self.path
+        },
             template="products/product_page.html",)
+
+    def set_url_path(self, parent):
+        """
+        Overridden to remove the concealed page from the URL.
+        """
+        if parent.concealed_parent.exists():
+            self.url_path = (
+                    '/'.join(
+                        [parent.url_path[: len(parent.slug) - 2], self.slug]
+                    )
+                    + '/'
+            )
+        else:
+            self.url_path = super().set_url_path(parent)
+
+        return self.url_path
+
+
 
     intro = RichTextField(blank=True)
     content_panels = Page.content_panels + [
@@ -68,6 +92,7 @@ class ProductIndexPage(RoutablePageMixin, Page):
 
 
 class ProductPageTag(TaggedItemBase):
+
     content_object = ParentalKey(
         'ProductPage',
         related_name='tagged_items',
@@ -80,14 +105,13 @@ class ProductPageTag(TaggedItemBase):
 
 class ProductPage(Page):
     subpage_types = []
-    parent_page_types = ['products.ProductIndexPage']
-    page_description = "Пополните каталог используя эту страницу"
+    parent_page_types = ['ProductIndexPage']
+    page_description = "Пополняйте каталог тут или в разделе - Элементы сайта/Продукция"
     Page._meta.get_field("title").help_text = 'Данное имя может отображаться как заголовок.'
 
 
 
     # даем доступ к изображениям на странице
-
     def main_image(self):
         gallery_item = self.gallery_images.first()
         if gallery_item:
@@ -118,11 +142,11 @@ class ProductPage(Page):
                    help_text='Краткая характеристика в виде тегов',
                    ),
         FieldPanel('categories',
-                   widget=forms.RadioSelect,
+                   widget=forms.Select,
                    heading='Категория',
                    help_text=mark_safe('Выберите категорию изделия. Если отсутствует подходящая, вы '
                                         'можете оставить поле пустым или'+links['new_product_category']+
-                                        '<br>Располодение категорий: Фрагменты/Категории каталога продукции/...')
+                                        '<br>Расположение категорий: Элементы сайта/Категории продукции/...')
                    ),
         FieldPanel('intro',
                    heading='Полное наименование изделия'
@@ -135,8 +159,9 @@ class ProductPage(Page):
                     heading='Галерея',
                     label="Изображение",
                     help_text='Первое изображение также будет отображаться в каталоге.'
-                              f' Максимальное уоличество изображений - {max_product_image_numbers}.',
-                    max_num=max_product_image_numbers
+                              f' Максимальное количество изображений - {max_product_image_numbers}.',
+                    max_num=max_product_image_numbers,
+                    min_num=min_product_image_numbers,
                     ),
     ]
 
@@ -165,6 +190,7 @@ class BlogPageGalleryImage(Orderable):
 class ProductTagIndexPage(Page):
     subpage_types = []
     parent_page_types = ['home.HomePage']
+    page_description = "корневая страница ведущая к запросу фильтр-тег"
 
     def get_context(self, request):
         # Фильтр по тегам

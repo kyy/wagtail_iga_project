@@ -9,13 +9,13 @@
 
     {% for productpage in productpages %}
 
-          <p>
+
               <strong><a href="{% pageurl productpage %}">{{ productpage.title }}</a></strong><br />
               <small>Revised: {{ productpage.latest_revision_created_at }}</small><br />
               {% if productpage.author %}
                 <p>By {{ productpage.author.profile }}</p>
               {% endif %}
-          </p>
+
 
     {% empty %}
         No pages found with that tag.

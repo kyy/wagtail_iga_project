@@ -10,6 +10,7 @@ class ProductCategoryAdmin(ModelAdmin):
     exclude_from_explorer = False
     search_fields = ('name', 'slug')
     list_display = ('name', 'slug', 'icon')
+    inspect_view_enabled = True
     prepopulated_fields = {'slug': ['name']}
 
 
@@ -20,7 +21,8 @@ class ProductPageAdmin(ModelAdmin):
     add_to_settings_menu = False
     exclude_from_explorer = False
     search_fields = ('title',)
-    list_display = ( 'title', 'slug', 'seo_title', 'categories', 'latest_revision_created_at','url_path', 'live')
+    inspect_view_enabled = True
+    list_display = ('title', 'slug', 'seo_title', 'categories', 'latest_revision_created_at', 'url_path', 'live')
 
 
 class ElementAdminGroup(ModelAdminGroup):

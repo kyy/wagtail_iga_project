@@ -2,7 +2,7 @@
 {% load wagtailcore_tags wagtailimages_tags wagtailroutablepage_tags %}
 
 {% block content %}
-<div class="tabs is-centered is-boxed is-toggle is-medium is-hidden-mobile">
+<div class="tabs is-centered is-boxed is-toggle is-small is-hidden-mobile">
     <ul><li {% if  title == page.title %}class="is-active"{% endif %}>
         <a class="category_menu" href="{% slugurl 'products' %}">
         <span class="icon is-small">{% image post.icon max-50x50 style="vertical-align: middle" %}</span>
