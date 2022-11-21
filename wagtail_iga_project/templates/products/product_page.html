@@ -2,45 +2,98 @@
 {% load wagtailcore_tags wagtailimages_tags tags %}
 
 
-
 {% block content %}
-    <h1>{{ page.title }}</h1>
-    <hr>
+<div class="container">
 
-
-{% with categories=page.categories %}
-    {% if categories %}
-        <h3>Category:</h3><ul>
-                <li style="display: inline">
-                    {% image categories.icon fill-32x32 style="vertical-align: middle" %}
-                    {{ categories.name }}
-                </li></ul>
-    {% endif %}
-{% endwith %}
-<hr>
-    <div class="intro">{{ page.intro }}</div><hr>
-    {{ page.body|richtext }}
-    {% for item in page.gallery_images.all %}
-        <div style="float: left; margin: 10px">
-            {% image item.image fill-320x240 %}
-            <p>{{ item.caption }}</p>
-        </div>
-    {% endfor %}
-    {% if page.tags.all.count %}
-        <h3>Tags</h3>
-    <div class="tags">
-        {% for tag in page.tags.all %}
-            <a class="tag is-info" href="{% slugurl 'tags' %}?tag={{ tag }}">{{ tag }}</a>
-        {% endfor %}
-    </div>
-{% endif %}
-    <p><a href="{{ page.get_parent.url }}">Return to blog</a></p>
-
-
-
-    {% live_categories_burger_menu %}
     {% live_categories_menu %}
-
-
+    <div class="products-cards">
+        <div class="columns is-multiline is-centered">
+            <div class="column is-12-mobile is-6-tablet">
+                <div class="card">
+                    <div class="card-image">
+                        <figure class="image">
+                            {% for item in page.gallery_images.all %}
+                                {% image item.image width-624 %}
+                                 <figcaption>{{ item.caption }}</figcaption>
+                            {% endfor %}
+                        </figure>
+                    </div>
+                    <div class="card-content">
+                        <div class="media">
+                            <div class="container py-auto mx-auto">
+                                {% if page.tags.all.count %}
+                                <div class="tags py-auto mx-auto">
+                                    {% for tag in page.tags.all %}
+                                    <a class="tag is-info" href="{% slugurl 'tags' %}?tag={{ tag }}">{{ tag }}</a>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-12-mobile is-6-tablet">
+            <div class="card">
+                <div class="card-content">
+                    <div class="media">
+                        <div class="media-content">
+                            <p class="title is-4" >{{ page.title }}</p>
+                            <p class="subtitle is-6">{{ page.intro }}</p>
+                            {% if page.categories %}
+                            <p class="subtitle is-6">
+                                <span class="tag is-warning is-large"><a href="{% slugurl 'products' %}categories/{{ page.categories.slug }}">
+                                <span class="icon is-medium">{% image page.categories.icon width-50 style="vertical-align: middle" %}</span>
+                                <span>{{ page.categories.name|upper}}</span>
+                                </a>
+                                </span>
+                            </p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="content">
+                        <p class="intro">{{ page.body|richtext }}</p>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
+
+<h1>{{ page.title }}</h1>
+
+{% with categories=page.categories %}
+{% if categories %}
+<h3>Category:</h3>
+<ul>
+    <li style="display: inline">
+        {% image categories.icon fill-32x32 style="vertical-align: middle" %}
+        {{ categories.name }}
+    </li>
+</ul>
+{% endif %}
+{% endwith %}
+
+
+<hr>
+<div class="intro">{{ page.intro }}</div>
+<hr>
+{{ page.body|richtext }}
+{% for item in page.gallery_images.all %}
+<div style="float: left; margin: 10px">
+    {% image item.image fill-320x240 %}
+    <p>{{ item.caption }}</p>
+</div>
+{% endfor %}
+{% if page.tags.all.count %}
+<h3>Tags</h3>
+<div class="tags">
+    {% for tag in page.tags.all %}
+    <a class="tag is-info" href="{% slugurl 'tags' %}?tag={{ tag }}">{{ tag }}</a>
+    {% endfor %}
+</div>
+{% endif %}
+<p><a href="{{ page.get_parent.url }}">Return to blog</a></p>

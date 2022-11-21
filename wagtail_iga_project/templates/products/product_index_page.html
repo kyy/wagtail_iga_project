@@ -3,7 +3,7 @@
 {% load wagtailcore_tags wagtailimages_tags wagtailroutablepage_tags %}
 
 {% block content %}
-<div class="tabs is-centered is-boxed is-toggle is-small is-hidden-mobile">
+<div class="tabs is-centered is-boxed is-toggle is-medium is-hidden-mobile">
     <ul><li {% if  title == page.title %}class="is-active"{% endif %}>
         <a class="category_menu" href="{% slugurl 'products' %}">
         <span class="icon is-small">{% image post.icon max-50x50 style="vertical-align: middle" %}</span>
@@ -31,22 +31,23 @@
         {% with post=post.specific %}
         {% with post.main_image as main_image %}
         {% if main_image %}
-        {% image main_image fill-300x200 as main_image %}
+        {% image main_image width-305 as main_image %}
         <div class="column is-12-mobile is-6-tablet is-3-desktop">
             <div class="card">
-                <div class="card-image"></div>
-                <figure class="image">
+                <div class="card-image">
+                    <figure class="image">
                     <a href="{{ self.url }}{{ post.slug }}">
-                    <img src="{{ main_image.url }}" alt="Placeholder image"> </a>
+                    <img src="{{ main_image.url }}" alt="Placeholder image"></a>
                     <figcaption>{{ post.intro}}</figcaption>
-                </figure>
+                     </figure>
+                </div>
                 {% endif %}
                 {% endwith %}
                 <div class="card-content">
                     <div class="media">
                         <div class="media-content">
-                            <p class="title is-4"><a href="{{ self.url }}{{ post.slug }}" class="has-text-black">{{ post.title }}</a></p>
-                            <p class="subtitle is-6"><a href="{{ self.url }}categories/{{ post.categories.slug }}">{{ post.categories.name }}</a></p>
+                            <p class="title is-4"><a href="{% slugurl 'products' %}{{ post.slug }}" class="has-text-black">{{ post.title }}</a></p>
+                            <p class="subtitle is-6"><a href="{% slugurl 'products' %}categories/{{ post.categories.slug }}">{{ post.categories.name }}</a></p>
                         </div>
                     </div>
                     <div class="content">
