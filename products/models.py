@@ -45,7 +45,7 @@ class ProductIndexPage(RoutablePageMixin, Page):
             'live_categories': self.live_categories,
         })
 
-    @path('<str:cat_name>/', name='cat_url')
+    @path('categories/<str:cat_name>/', name='cat_url')
     def current_category_page(self, request, cat_name=None):
 
         productpages = ProductPage.objects.live().filter(categories__slug__iexact=cat_name).order_by \
@@ -56,33 +56,6 @@ class ProductIndexPage(RoutablePageMixin, Page):
             'productpages': productpages,
             'live_categories': self.live_categories,
         })
-
-    @path('<str:cat_name>/<str:prod_name>/', name='product_url')
-    def product_page(self, request, cat_name=None, prod_name=None):
-
-        product = ProductPage.objects.get(categories__slug__iexact=cat_name, slug=prod_name)
-        return self.render(request, context_overrides={
-            'product': product,
-            self.path: self.path
-        },
-            template="products/product_page.html",)
-
-    def set_url_path(self, parent):
-        """
-        Overridden to remove the concealed page from the URL.
-        """
-        if parent.concealed_parent.exists():
-            self.url_path = (
-                    '/'.join(
-                        [parent.url_path[: len(parent.slug) - 2], self.slug]
-                    )
-                    + '/'
-            )
-        else:
-            self.url_path = super().set_url_path(parent)
-
-        return self.url_path
-
 
 
     intro = RichTextField(blank=True)
@@ -109,9 +82,7 @@ class ProductPage(Page):
     page_description = "Пополняйте каталог тут или в разделе - Элементы сайта/Продукция"
     Page._meta.get_field("title").help_text = 'Данное имя может отображаться как заголовок.'
 
-
-
-    # даем доступ к изображениям на странице
+   # даем доступ к изображениям на странице
     def main_image(self):
         gallery_item = self.gallery_images.first()
         if gallery_item:
