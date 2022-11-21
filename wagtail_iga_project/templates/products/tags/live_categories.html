@@ -1,0 +1,21 @@
+{% load wagtailimages_tags wagtailcore_tags %}
+
+
+
+<div class="is-boxed is-toggle is-small">
+    <ul><li>
+        <a class="category_menu" href="{% slugurl 'products' %}">
+        <span class="icon is-small">{% image post.icon max-50x50 style="vertical-align: middle" %}</span>
+        <span>ALL</span>
+        </a>
+        </li>
+        {% for post in categories %}
+        <li>
+        <a class="category_menu" href="{% slugurl 'products' %}categories/{{ post.slug }}">
+        <span class="icon is-small">{% image post.icon max-50x50 style="vertical-align: middle" %}</span>
+        <span>{{ post|upper }}</span>
+        </a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>

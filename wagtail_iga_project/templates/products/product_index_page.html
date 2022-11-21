@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load tags %}
 {% load wagtailcore_tags wagtailimages_tags wagtailroutablepage_tags %}
 
 {% block content %}
@@ -11,7 +12,7 @@
         </li>
         {% for post in live_categories %}
         <li {% if post.name == title %}class="is-active"{% endif %}>
-        <a class="category_menu" href="{{ page.url }}categories/{{ post.slug }}">
+        <a class="category_menu" href="{% slugurl 'products' %}categories/{{ post.slug }}">
         <span class="icon is-small">{% image post.icon max-50x50 style="vertical-align: middle" %}</span>
         <span>{{ post|upper }}</span>
         </a>

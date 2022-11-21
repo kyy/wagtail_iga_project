@@ -20,19 +20,17 @@ min_product_image_numbers = 1
 links = {'new_product_category':
              '<a target="_blank" href="/admin/snippets/products/productcategory/add/"> создать категорию.</a>',
 }
+                        # get all categories with live products:
+def live_categories():
+    all_products_live_id = ProductPage.objects.live().values_list('categories_id', flat=True)
+    list_live_id_uniqe = list(set(all_products_live_id))
+    return ProductCategory.objects.filter(id__in=list_live_id_uniqe).order_by('-id')
 
 
 class ProductIndexPage(RoutablePageMixin, Page):
     subpage_types = ['ProductPage']
     parent_page_types = ['home.HomePage']
     page_description = "корневая страница для каталога продукции, также откроется по запросу all-categories/"
-
-    # отслеживаем в меню только активные категории
-    def live_categories(self):
-        all_products_live_id = ProductPage.objects.live().values_list('categories_id', flat=True)
-        list_live_id_uniqe = list(set(all_products_live_id))
-        live_cat = ProductCategory.objects.filter(id__in=list_live_id_uniqe).order_by('-id')
-        return live_cat
 
     @path('')
     @path('all-categories/')
@@ -42,7 +40,7 @@ class ProductIndexPage(RoutablePageMixin, Page):
         return self.render(request, context_overrides={
             'title': self.title,
             'productpages': productpages,
-            'live_categories': self.live_categories,
+            'live_categories': live_categories,
         })
 
     @path('categories/<str:cat_name>/', name='cat_url')
@@ -50,11 +48,11 @@ class ProductIndexPage(RoutablePageMixin, Page):
 
         productpages = ProductPage.objects.live().filter(categories__slug__iexact=cat_name).order_by \
             ('-first_published_at')
-        current_cat = self.live_categories().get(slug=cat_name).name
+        current_cat = live_categories().get(slug=cat_name).name
         return self.render(request, context_overrides={
             'title': "%s" % current_cat,
             'productpages': productpages,
-            'live_categories': self.live_categories,
+            'live_categories': live_categories,
         })
 
 
@@ -129,7 +127,7 @@ class ProductPage(Page):
         InlinePanel('gallery_images',
                     heading='Галерея',
                     label="Изображение",
-                    help_text='Первое изображение также будет отображаться в каталоге.'
+                    help_text='Первое изображение также будет отображаться в каталоге как превью продукта.'
                               f' Максимальное количество изображений - {max_product_image_numbers}.',
                     max_num=max_product_image_numbers,
                     min_num=min_product_image_numbers,

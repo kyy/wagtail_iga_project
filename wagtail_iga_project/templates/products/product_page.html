@@ -1,11 +1,13 @@
 {% extends "base.html" %}
-{% load wagtailcore_tags wagtailimages_tags %}
+{% load wagtailcore_tags wagtailimages_tags tags %}
 
-{% block body_class %}template-productpage{% endblock %}
+
 
 {% block content %}
     <h1>{{ page.title }}</h1>
     <hr>
+
+
 {% with categories=page.categories %}
     {% if categories %}
         <h3>Category:</h3><ul>
@@ -33,5 +35,12 @@
     </div>
 {% endif %}
     <p><a href="{{ page.get_parent.url }}">Return to blog</a></p>
+
+
+
+    {% live_categories_burger_menu %}
+    {% live_categories_menu %}
+
+
 {% endblock %}
 
