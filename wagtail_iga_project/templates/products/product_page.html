@@ -20,9 +20,9 @@
                     </div>
                     <div class="card-content">
                         <div class="media">
-                            <div class="container py-auto mx-auto">
+                            <div class="container">
                                 {% if page.tags.all.count %}
-                                <div class="tags py-auto mx-auto">
+                                <div class="tags is-centered">
                                     {% for tag in page.tags.all %}
                                     <a class="tag is-info" href="{% slugurl 'tags' %}?tag={{ tag }}">{{ tag }}</a>
                                     {% endfor %}
@@ -38,10 +38,12 @@
                 <div class="card-content">
                     <div class="media">
                         <div class="media-content">
-                            <p class="title is-4" >{{ page.title }}</p>
-                            <p class="subtitle is-6">{{ page.intro }}</p>
+                            <div class="box">
+                                <p class="title is-4" >{{ page.title }}</p>
+                                <p class="subtitle is-6">{{ page.intro }}</p>
+                            </div>
                             {% if page.categories %}
-                            <p class="subtitle is-6">
+                            <p class="subtitle is-6 ">
                                 <span class="tag is-warning is-large"><a href="{% slugurl 'products' %}categories/{{ page.categories.slug }}">
                                 <span class="icon is-medium">{% image page.categories.icon width-50 style="vertical-align: middle" %}</span>
                                 <span>{{ page.categories.name|upper}}</span>
