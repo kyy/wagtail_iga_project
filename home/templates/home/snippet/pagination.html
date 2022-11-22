@@ -5,7 +5,7 @@
 {% spaceless %}
   {% if productpages.paginator.num_pages > 1 %}
     {% with request.get_full_path as path %}
-      <nav class="pagination" role="navigation" aria-label="pagination">
+      <nav class="pagination is-centered" role="navigation" aria-label="pagination">
         <ul class="pagination-list">
 
           {% if productpages.number > 2 %}

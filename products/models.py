@@ -18,6 +18,8 @@ from django.shortcuts import render
 #constants
 max_product_image_numbers = 5
 min_product_image_numbers = 1
+pagination_number = 4
+
 links = {'new_product_category':
              '<a target="_blank" href="/admin/snippets/products/productcategory/add/"> создать категорию.</a>',
 }
@@ -26,6 +28,13 @@ def live_categories():
     all_products_live_id = ProductPage.objects.live().values_list('categories_id', flat=True)
     list_live_id_uniqe = list(set(all_products_live_id))
     return ProductCategory.objects.filter(id__in=list_live_id_uniqe).order_by('-id')
+
+                        # pagination:
+def pagination(request, number_of_pages, model):
+    paginator = Paginator(model, number_of_pages)
+    page_number = request.GET.get('page')
+    return paginator.get_page(page_number)
+
 
 
 class ProductIndexPage(RoutablePageMixin, Page):
@@ -37,12 +46,12 @@ class ProductIndexPage(RoutablePageMixin, Page):
     @path('all-categories/')
     def all_category_page(self, request):
         productpages = self.get_children().live().order_by('-first_published_at')
-        paginator = Paginator(productpages, 2)
-        page_number = request.GET.get('page')
-        page_obj = paginator.get_page(page_number)
+        # paginator = Paginator(productpages, categories_pagination)
+        # page_number = request.GET.get('page')
+        # page_obj = paginator.get_page(page_number)
         return self.render(request, context_overrides={
             'title': self.title,
-            'productpages': page_obj,
+            'productpages': pagination(request, pagination_number , productpages),
             'live_categories': live_categories,
         })
 
@@ -53,7 +62,7 @@ class ProductIndexPage(RoutablePageMixin, Page):
         current_cat = live_categories().get(slug=cat_name).name
         return self.render(request, context_overrides={
             'title': "%s" % current_cat,
-            'productpages': productpages,
+            'productpages': pagination(request, pagination_number , productpages),
             'live_categories': live_categories,
         })
 
