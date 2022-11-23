@@ -1,0 +1,13 @@
+
+<nav class="breadcrumb is-centered pt-6 mb-2" aria-label="breadcrumbs">
+    {% if self.get_ancestors|length > 1 %}
+        <ul>
+            {% for p in self.get_ancestors %}
+                {% if p.is_root == False %}
+                    <li><a href="{{ p.url }}">{{ p.title }}</a></li>
+                {% endif %}
+            {% endfor %}
+            <li class="is-active"><a href="#">{{ self.title }}</a></li>
+        </ul>
+    {% endif %}
+</nav>

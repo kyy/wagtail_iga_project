@@ -1,16 +1,16 @@
 {% load wagtailimages_tags wagtailcore_tags %}
 
 
-<div class="tags are-medium is-centered pt-6">
-    <span class="tag">
+<div class="tags are-medium is-centered">
+    <span class="tag is-white">
     <a href="{% slugurl 'products' %}">
     ALL
     </a>
     </span>
     {% for post in live_categories %}
-    <span class="tag {% if  title == post.name %}is-link{% endif %}">
+    <span class="tag is-white">
      <a href="{% slugurl 'products' %}categories/{{ post.slug }}">
-    {{ post|upper }}
+    {{ post}}
     </a>
     </span>
     {% endfor %}

@@ -3,7 +3,7 @@
 {% load wagtailcore_tags wagtailimages_tags wagtailroutablepage_tags %}
 
 {% block content %}
-<div class="tags are-medium is-centered pt-6">
+<div class="tags are-medium is-centered">
     <span class="tag {% if  title == page.title %}is-link{% else %}is-white{% endif %}">
         <a {% if  title == page.title %}class="has-text-white-bis" {% endif %} href="{% slugurl 'products' %}">
         ALL
@@ -12,7 +12,7 @@
         {% for post in live_categories %}
         <span class="tag {% if  title == post.name %}is-link{% else %}is-white{% endif %}">
          <a {% if  title == post.name %}class="has-text-white-bis" {% endif %}href="{% slugurl 'products' %}categories/{{ post.slug }}">
-        {{ post|upper }}
+        {{ post }}
         </a>
         </span>
         {% endfor %}
@@ -20,7 +20,9 @@
 <div class="products-cards">
     <div class="level is-hidden-mobile">
         <div class="">
-            <h2 class="title is-6 has-text-left">{{ page.intro|richtext }}</h2>
+            <h2 class="title is-6 has-text-left">
+                {{ page.intro|richtext }}
+            </h2>
         </div>
     </div>
     <div class="columns is-multiline">
