@@ -1,13 +1,30 @@
+{% load wagtailcore_tags %}
 
-<nav class="breadcrumb is-centered pt-6 mb-2" aria-label="breadcrumbs">
-    {% if self.get_ancestors|length > 1 %}
-        <ul>
-            {% for p in self.get_ancestors %}
-                {% if p.is_root == False %}
-                    <li><a href="{{ p.url }}">{{ p.title }}</a></li>
-                {% endif %}
-            {% endfor %}
-            <li class="is-active"><a href="#">{{ self.title }}</a></li>
-        </ul>
-    {% endif %}
+<nav class="breadcrumb has-arrow-separator is-small is-centered pt-6 mb-2" aria-label="breadcrumbs">
+   {% if self.get_ancestors|length > 1 %}
+   <ul>
+      {% for p in self.get_ancestors %}
+      {% if p.is_root == False %}
+      <li><a href="{{ p.url }}">{{ p.title }}</a></li>
+      {% endif %}
+      {% endfor %}
+      {% if page.categories %}
+      <li><a href="{% slugurl 'products' %}categories/{{ page.categories.slug }}">{{ page.categories.name }}</a></li>
+      {% endif %}
+      {% if title %}
+      {% if  title == page.title %}
+      <li class="is-active"><a href="{% slugurl 'products' %}">Вся продукция</a></li>
+      {% endif %}
+      {% for post in live_categories %}
+      {% if  title == post.name %}
+      <li><a href="{% slugurl 'products' %}">{{ self.title }}</a></li>
+      <li class="is-active"><a href="#">{{ title }}</a></li>
+      {% endif%}
+      {% endfor %}
+      {% else %}
+      <li class="is-active"><a href="#">{{ self.title }}</a></li>
+   </ul>
+   {% endif %}
+   {% endif %}
 </nav>
+

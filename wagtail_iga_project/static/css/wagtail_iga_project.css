@@ -1,1 +1,4 @@
 
+.is_disabled {
+    pointer-events: none;
+}

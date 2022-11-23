@@ -170,7 +170,7 @@ class BlogPageGalleryImage(Orderable):
 class ProductTagIndexPage(Page):
     subpage_types = []
     parent_page_types = ['home.HomePage']
-    page_description = "корневая страница ведущая к запросу фильтр-тег"
+    page_description = "Корневая страница ведущая к запросу фильтр-тег"
 
     def get_context(self, request):
         # Фильтр по тегам

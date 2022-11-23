@@ -4,14 +4,14 @@
 
 {% block content %}
 <div class="tags are-medium is-centered">
-    <span class="tag {% if  title == page.title %}is-link{% else %}is-white{% endif %}">
-        <a {% if  title == page.title %}class="has-text-white-bis" {% endif %} href="{% slugurl 'products' %}">
-        ALL
+    <span class="tag {% if  title == page.title %}is-link {% else %}is-white{% endif %}">
+        <a {% if  title == page.title %}class="has-text-white-bis is_disabled" {% endif %} href="{% slugurl 'products' %}">
+        Все
         </a>
         </span>
         {% for post in live_categories %}
         <span class="tag {% if  title == post.name %}is-link{% else %}is-white{% endif %}">
-         <a {% if  title == post.name %}class="has-text-white-bis" {% endif %}href="{% slugurl 'products' %}categories/{{ post.slug }}">
+         <a {% if  title == post.name %}class="has-text-white-bis is_disabled" {% endif %}href="{% slugurl 'products' %}categories/{{ post.slug }}">
         {{ post }}
         </a>
         </span>
