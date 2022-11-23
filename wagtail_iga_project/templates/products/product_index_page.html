@@ -3,26 +3,23 @@
 {% load wagtailcore_tags wagtailimages_tags wagtailroutablepage_tags %}
 
 {% block content %}
-<div class="tabs is-centered is-boxed is-toggle is-small is-hidden-mobile">
-    <ul><li {% if  title == page.title %}class="is-active"{% endif %}>
-        <a class="category_menu" href="{% slugurl 'products' %}">
-        <span class="icon is-small">{% image post.icon max-50x50 style="vertical-align: middle" %}</span>
-        <span>ALL</span>
+<div class="tags are-medium is-centered pt-6">
+    <span class="tag {% if  title == page.title %}is-link{% else %}is-white{% endif %}">
+        <a {% if  title == page.title %}class="has-text-white-bis" {% endif %} href="{% slugurl 'products' %}">
+        ALL
         </a>
-        </li>
+        </span>
         {% for post in live_categories %}
-        <li {% if post.name == title %}class="is-active"{% endif %}>
-        <a class="category_menu" href="{% slugurl 'products' %}categories/{{ post.slug }}">
-        <span class="icon is-small">{% image post.icon max-50x50 style="vertical-align: middle" %}</span>
-        <span>{{ post|upper }}</span>
+        <span class="tag {% if  title == post.name %}is-link{% else %}is-white{% endif %}">
+         <a {% if  title == post.name %}class="has-text-white-bis" {% endif %}href="{% slugurl 'products' %}categories/{{ post.slug }}">
+        {{ post|upper }}
         </a>
-        </li>
+        </span>
         {% endfor %}
-    </ul>
 </div>
 <div class="products-cards">
     <div class="level is-hidden-mobile">
-        <div class="box">
+        <div class="">
             <h2 class="title is-6 has-text-left">{{ page.intro|richtext }}</h2>
         </div>
     </div>
@@ -38,21 +35,13 @@
                     <figure class="image">
                     <a href="{{ self.url }}{{ post.slug }}">
                     <img src="{{ main_image.url }}" alt="Placeholder image"></a>
-                    <figcaption>{{ post.intro}}</figcaption>
                      </figure>
                 </div>
                 {% endif %}
                 {% endwith %}
-                <div class="card-content">
-                    <div class="media">
-                        <div class="media-content">
-                            <p class="title is-4 has-text-centered"><a href="{% slugurl 'products' %}{{ post.slug }}" class="has-text-black">{{ post.title }}</a></p>
-                            <p class="subtitle is-6"><a href="{% slugurl 'products' %}categories/{{ post.categories.slug }}">{{ post.categories.name }}</a></p>
-                        </div>
-                    </div>
-                    <div class="content">
-                        <p class="intro centered">{{ post.intro }}</p>
-                    </div>
+                <div class="content is-small mx-3">
+                    <h1 class="m-1">{{ post.title }}</h1>
+                    <p class="pb-3">{{ post.intro }}</p>
                 </div>
             </div>
         </div>

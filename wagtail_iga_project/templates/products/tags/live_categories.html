@@ -1,21 +1,17 @@
 {% load wagtailimages_tags wagtailcore_tags %}
 
 
-
-<div class="tabs is-centered is-boxed is-toggle is-small is-hidden-mobile">
-    <ul><li>
-        <a class="category_menu" href="{% slugurl 'products' %}">
-        <span class="icon is-small">{% image post.icon max-50x50 style="vertical-align: middle" %}</span>
-        <span>ALL</span>
-        </a>
-        </li>
-        {% for post in categories %}
-        <li>
-        <a class="category_menu" href="{% slugurl 'products' %}categories/{{ post.slug }}">
-        <span class="icon is-small">{% image post.icon max-50x50 style="vertical-align: middle" %}</span>
-        <span>{{ post|upper }}</span>
-        </a>
-        </li>
-        {% endfor %}
-    </ul>
+<div class="tags are-medium is-centered pt-6">
+    <span class="tag">
+    <a href="{% slugurl 'products' %}">
+    ALL
+    </a>
+    </span>
+    {% for post in live_categories %}
+    <span class="tag {% if  title == post.name %}is-link{% endif %}">
+     <a href="{% slugurl 'products' %}categories/{{ post.slug }}">
+    {{ post|upper }}
+    </a>
+    </span>
+    {% endfor %}
 </div>

@@ -4,7 +4,6 @@
 
 {% block content %}
 <div class="container">
-
     {% live_categories_menu %}
     <div class="products-cards">
         <div class="columns is-multiline is-centered">
@@ -14,11 +13,13 @@
                         <figure class="image">
                             {% for item in page.gallery_images.all %}
                                 {% image item.image width-624 %}
-                                 <figcaption>{{ item.caption }}</figcaption>
+                                 <figcaption class="card-header has-text-weight-medium is-italic is-size-7-mobile p-1 px-2">
+                                     {{ item.caption }}
+                                 </figcaption>
                             {% endfor %}
                         </figure>
                     </div>
-                    <div class="card-content">
+                    <div class="content p-3">
                         <div class="media">
                             <div class="container">
                                 {% if page.tags.all.count %}
@@ -34,30 +35,32 @@
                 </div>
             </div>
             <div class="column is-12-mobile is-6-tablet">
-            <div class="card">
-                <div class="card-content">
-                    <div class="media">
-                        <div class="media-content">
-                            <div class="box">
-                                <p class="title is-4" >{{ page.title }}</p>
-                                <p class="subtitle is-6">{{ page.intro }}</p>
-                            </div>
+
+
+
+                        <div class="card">
+                            <header class="card-header">
+                                <p class="card-header-title is-size-5" >
+                                    {{ page.title }}
+                                </p>
+                                <button class="card-header-icon" aria-label="more options">
+                                  <span class="icon">
+                                    <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                  </span>
+                                </button>
+                            </header>
                             {% if page.categories %}
-                            <p class="subtitle is-6 ">
-                                <span class="tag is-warning is-large"><a href="{% slugurl 'products' %}categories/{{ page.categories.slug }}">
-                                <span class="icon is-medium">{% image page.categories.icon width-50 style="vertical-align: middle" %}</span>
-                                <span>{{ page.categories.name|upper}}</span>
-                                </a>
-                                </span>
+                            <p class="subtitle is-6 p-4 has-text-weight-medium">
+                               {{ page.intro }}
                             </p>
                             {% endif %}
                         </div>
-                    </div>
-                    <div class="content">
+
+                    <div class="card p-3 mt-1">
                         <p class="intro">{{ page.body|richtext }}</p>
                     </div>
-                </div>
-            </div>
+
+
             </div>
         </div>
     </div>
