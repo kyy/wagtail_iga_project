@@ -17,9 +17,11 @@ def optimize_image_storage(sender, instance, created=False, **kwargs):
         copy_o_f = original_file
         try:
             os.rename(croped_file, original_file)
+            #windows error
         except FileExistsError:
             os.remove(original_file)
             os.rename(croped_file, copy_o_f)
+            #get new sizes
         instance.width = croped_image.width
         instance.height = croped_image.height
         instance.file_size = os.path.getsize(original_file)

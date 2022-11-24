@@ -2,6 +2,7 @@ from django import forms
 from django.core.paginator import Paginator
 from django.db import models
 from django.utils.safestring import mark_safe
+from django.views.generic.list import MultipleObjectMixin
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
 from taggit.models import TaggedItemBase
@@ -46,9 +47,6 @@ class ProductIndexPage(RoutablePageMixin, Page):
     @path('all-categories/')
     def all_category_page(self, request):
         productpages = self.get_children().live().order_by('-first_published_at')
-        # paginator = Paginator(productpages, categories_pagination)
-        # page_number = request.GET.get('page')
-        # page_obj = paginator.get_page(page_number)
         return self.render(request, context_overrides={
             'title': self.title,
             'productpages': pagination(request, pagination_number , productpages),

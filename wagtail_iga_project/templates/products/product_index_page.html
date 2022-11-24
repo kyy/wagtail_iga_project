@@ -5,13 +5,13 @@
 {% block content %}
 <div class="field is-grouped is-grouped-multiline is-grouped-centered buttons are-small">
      <p class="control ">
-        <a class="button{% if  title == page.title %} is-light is_disabled {% endif %}" href="{% slugurl 'products' %}">
+        <a class="button {% if  title == page.title %} is-info is_disabled {% else %} is-info is-outlined {% endif %}" href="{% slugurl 'products' %}">
         Все
         </a>
         </p>
         {% for post in live_categories %}
         <p class="control ">
-         <a class="button{% if  title == post.name %} is-light is_disabled {% endif %}" href="{% slugurl 'products' %}categories/{{ post.slug }}">
+         <a class="button {% if  title == post.name %} is-info is_disabled {% else %} is-info is-outlined {% endif %}" href="{% slugurl 'products' %}categories/{{ post.slug }}">
         {{ post }}
         </a>
         </p>
