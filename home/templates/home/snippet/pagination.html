@@ -5,7 +5,7 @@
 {% spaceless %}
   {% if productpages.paginator.num_pages > 1 %}
     {% with request.get_full_path as path %}
-      <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+      <nav class="pagination is-small is-centered" role="navigation" aria-label="pagination">
         <ul class="pagination-list">
 
           {% if productpages.number > 2 %}
@@ -50,7 +50,7 @@
           {% endif %}
 
           <li class="">
-            <a class="pagination-link is-current" href="{{ path }}">{{ productpages.number }} / {{ productpages.paginator.num_pages }}</a>
+            <a class="pagination-link has-background-light has-text-black is_disabled is_border_disabled" href="{{ path }}">{{ productpages.number }} / {{ productpages.paginator.num_pages }}</a>
           </li>
 
           {% if productpages.has_next %}

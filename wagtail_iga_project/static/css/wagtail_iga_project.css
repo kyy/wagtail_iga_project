@@ -2,3 +2,7 @@
 .is_disabled {
     pointer-events: none;
 }
+
+.is_border_disabled {
+    border: none;
+}

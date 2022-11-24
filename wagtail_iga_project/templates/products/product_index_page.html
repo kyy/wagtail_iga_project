@@ -3,18 +3,18 @@
 {% load wagtailcore_tags wagtailimages_tags wagtailroutablepage_tags %}
 
 {% block content %}
-<div class="tags are-medium is-centered">
-    <span class="tag {% if  title == page.title %}is-link {% else %}is-white{% endif %}">
-        <a {% if  title == page.title %}class="has-text-white-bis is_disabled" {% endif %} href="{% slugurl 'products' %}">
+<div class="field is-grouped is-grouped-multiline is-grouped-centered buttons are-small">
+     <p class="control ">
+        <a class="button{% if  title == page.title %} is-light is_disabled {% endif %}" href="{% slugurl 'products' %}">
         Все
         </a>
-        </span>
+        </p>
         {% for post in live_categories %}
-        <span class="tag {% if  title == post.name %}is-link{% else %}is-white{% endif %}">
-         <a {% if  title == post.name %}class="has-text-white-bis is_disabled" {% endif %}href="{% slugurl 'products' %}categories/{{ post.slug }}">
+        <p class="control ">
+         <a class="button{% if  title == post.name %} is-light is_disabled {% endif %}" href="{% slugurl 'products' %}categories/{{ post.slug }}">
         {{ post }}
         </a>
-        </span>
+        </p>
         {% endfor %}
 </div>
 <div class="products-cards">
