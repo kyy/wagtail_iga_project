@@ -2,7 +2,6 @@ from django import forms
 from django.core.paginator import Paginator
 from django.db import models
 from django.utils.safestring import mark_safe
-from django.views.generic.list import MultipleObjectMixin
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
 from taggit.models import TaggedItemBase
@@ -12,6 +11,7 @@ from wagtail.contrib.routable_page.models import RoutablePageMixin, path
 from wagtail.fields import RichTextField
 from wagtail.models import Page, Orderable
 from wagtail.search import index
+from taggit.models import Tag
 from wagtail.snippets.models import register_snippet
 from django.shortcuts import render
 
@@ -35,7 +35,6 @@ def pagination(request, number_of_pages, model):
     paginator = Paginator(model, number_of_pages)
     page_number = request.GET.get('page')
     return paginator.get_page(page_number)
-
 
 
 class ProductIndexPage(RoutablePageMixin, Page):
@@ -173,11 +172,13 @@ class ProductTagIndexPage(Page):
     def get_context(self, request):
         # Фильтр по тегам
         tag = request.GET.get('tag')
-        productpages = ProductPage.objects.filter(tags__name=tag)
+        productpages = ProductPage.objects.filter(tags__name=tag).order_by('categories__name')
+        tags_all =  Tag.objects.all()
 
         # Обновление контекста шаблона
         context = super().get_context(request)
         context['productpages'] = productpages
+        context['tags_all'] = tags_all
         return context
 
 
@@ -210,11 +211,4 @@ class ProductCategory(models.Model):
     class Meta:
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории каталога продукции'
-
-
-
-
-
-
-
 

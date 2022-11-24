@@ -1,15 +1,14 @@
 {% load wagtailimages_tags wagtailcore_tags %}
 
-
 <div class="field is-grouped is-grouped-multiline is-grouped-centered buttons are-small">
      <p class="control ">
-        <a class="button" href="{% slugurl 'products' %}">
+        <a class="button is-info is-outlined" href="{% slugurl 'products' %}">
         Все
         </a>
         </p>
         {% for post in live_categories %}
         <p class="control ">
-         <a class="button" href="{% slugurl 'products' %}categories/{{ post.slug }}">
+         <a class="button is-info is-outlined" href="{% slugurl 'products' %}categories/{{ post.slug }}">
         {{ post }}
         </a>
         </p>
