@@ -169,11 +169,18 @@ class ProductTagIndexPage(Page):
     parent_page_types = ['home.HomePage']
     page_description = "Корневая страница ведущая к запросу фильтр-тег"
 
+    def main_image(self):
+        gallery_item = self.gallery_images.first()
+        if gallery_item:
+            return gallery_item.image
+        else:
+            return None
+
     def get_context(self, request):
         # Фильтр по тегам
         tag = request.GET.get('tag')
-        productpages = ProductPage.objects.filter(tags__name=tag).order_by('categories__name')
-        tags_all =  Tag.objects.all()
+        productpages = ProductPage.objects.filter(tags__slug=tag).order_by('categories__name')
+        tags_all =  Tag.objects.exclude(products_productpagetag_items__content_object__isnull=True)
 
         # Обновление контекста шаблона
         context = super().get_context(request)

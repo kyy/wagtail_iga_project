@@ -1,34 +1,82 @@
 {% extends "base.html" %}
+{% load wagtailimages_tags %}
 {% load wagtailcore_tags %}
-{% block content %}
 
-        <div class="media">
-        <div class="container">
-        <div class="tags is-centered">
-    {% for tag in tags_all %}
-     <a class="tag {% if request.GET.tag == tag.slug %} is_disabled is-warning {% else %} is-info {% endif %}" href="{% slugurl 'tags' %}?tag={{ tag.slug }}">
-                   {{ tag.name }}
-        </a>
-    {% endfor %}
-        </div>
+
+{% block content %}
+<div class="columns is-multiline is-centered">
+   <div class="column is-12-mobile is-6-tablet">
+      <div class="media">
+         <div class="container">
+            <div class="tags is-centered">
+               {% for tag in tags_all %}
+               <a class="tag {% if request.GET.tag == tag.slug %} is_disabled is-warning {% else %} is-info {% endif %}" href="{% slugurl 'tags' %}?tag={{ tag.slug }}">
+               {{ tag.name }}
+               </a>
+               {% endfor %}
+            </div>
          </div>
-        </div>
-    <div class="content is-small mx-3">
-        {% for productpage in productpages %}
-            {% if productpage.categories.name %}
-              <a class="m-1 is-size-5 has-text-weight-medium" href="{% pageurl productpage %}">
-                  {{ productpage.title }}
-              </a><br>
-                 <a class="m-3 is-size-7 has-text-weight-medium" href="{% slugurl 'products' %}categories/{{ productpage.categories.slug }}">
-                  {{ productpage.categories.name }}
-                </a>
-                 <p class="m-3">{{ productpage.latest_revision_created_at }}</p>
-              {% if productpage.author %}
-                <p>Автор: {{ productpage.author.profile }}
-                </p>
-              {% endif %}{% endif %}
-    {% empty %}
-        Не найдено страниц соответсвующих тегу.
-    {% endfor %}
-    </div>
+      </div>
+      <div class="content is-small mx-3">
+         {% for productpage in productpages %}
+         {% if productpage.categories.name %}
+         <div class="card m-2 p-2">
+            <article class="media">
+               <div class="media-left">
+                  <figure class="image">
+                     {% with productpage=productpage.specific %}
+                     {% with productpage.main_image as main_image %}
+                     {% if main_image %}
+                     {% image main_image width-130 as main_image %}
+                     <img src="{{ main_image.url }}" alt="Placeholder image"></a>
+                     {% endif %}
+                     {% endwith %}
+                     {% endwith %}
+                  </figure>
+               </div>
+               <div class="media-content">
+                  <div class="content">
+                     <p>
+                        <a class="m-1 is-size-5 has-text-weight-medium" href="{% pageurl productpage %}">
+                        {{ productpage.title }}
+                        </a> <a class="m-3 is-size-7 has-text-weight-medium" href="{% slugurl 'products' %}categories/{{ productpage.categories.slug }}">
+                        {{ productpage.categories.name }}
+                        </a>{{ productpage.latest_revision_created_at }}
+                        <br>
+                        {{ productpage.intro|richtext }}
+                     </p>
+                  </div>
+                  <nav class="level is-mobile">
+                     <div class="level-left">
+                        <a class="level-item" aria-label="reply">
+                        <span class="icon is-small">
+                        <i class="fas fa-reply" aria-hidden="true"></i>
+                        </span>
+                        </a>
+                        <a class="level-item" aria-label="retweet">
+                        <span class="icon is-small">
+                        <i class="fas fa-retweet" aria-hidden="true"></i>
+                        </span>
+                        </a>
+                        <a class="level-item" aria-label="like">
+                        <span class="icon is-small">
+                        <i class="fas fa-heart" aria-hidden="true"></i>
+                        </span>
+                        </a>
+                     </div>
+                  </nav>
+               </div>
+            </article>
+         </div>
+         {% endif %}
+         {% empty %}
+         Не найдено страниц соответсвующих тегу.
+         {% endfor %}
+      </div>
+   </div>
+</div>
 {% endblock %}
+
+
+
+
