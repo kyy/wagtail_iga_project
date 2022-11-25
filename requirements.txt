@@ -4,5 +4,7 @@ wagtail>=4.1,<4.2
 ipython
 django-extensions
 django-werkzeug
+django-debug-toolbar
+
 
 

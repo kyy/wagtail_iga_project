@@ -1,12 +1,14 @@
 import os
 
-from wagtail.admin.panels import FieldPanel
 from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register, ModelAdminGroup
+from wagtail.snippets.models import register_snippet
+
 from products.models import ProductCategory, ProductPage
 from django.db.models.signals import  post_save
 from django.dispatch import receiver
 from wagtail.images import get_image_model
 from taggit.models import Tag
+
 
 #constant
 IMAGE_MODEL= get_image_model()
@@ -55,20 +57,17 @@ class ProductPageAdmin(ModelAdmin):
 
 
 class TagsModelAdmin(ModelAdmin):
-    Tag.panels = [FieldPanel("name")]  # only show the name field
     model = Tag
+    prepopulated_fields = {'slug': ['name']}
     menu_label = "Теги"
     menu_icon = "tag"
     list_display = ["name", "slug"]
     search_fields = ("name",)
 
 
-
-
 class ElementAdminGroup(ModelAdminGroup):
     menu_label = "Элементы сайта"
     items = (ProductCategoryAdmin, ProductPageAdmin, TagsModelAdmin)
     menu_order = 200
-
 
 modeladmin_register(ElementAdminGroup)

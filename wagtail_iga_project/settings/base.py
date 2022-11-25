@@ -30,7 +30,6 @@ INSTALLED_APPS = [
     'django_extensions',
     'django_werkzeug',
 
-
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
     "wagtail.contrib.settings",

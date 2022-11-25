@@ -13,9 +13,7 @@
         </div>
          </div>
         </div>
-
     <div class="content is-small mx-3">
-
         {% for productpage in productpages %}
             {% if productpage.categories.name %}
               <a class="m-1 is-size-5 has-text-weight-medium" href="{% pageurl productpage %}">
@@ -25,15 +23,12 @@
                   {{ productpage.categories.name }}
                 </a>
                  <p class="m-3">{{ productpage.latest_revision_created_at }}</p>
-
               {% if productpage.author %}
                 <p>Автор: {{ productpage.author.profile }}
                 </p>
               {% endif %}{% endif %}
     {% empty %}
         Не найдено страниц соответсвующих тегу.
-
     {% endfor %}
     </div>
-
 {% endblock %}
