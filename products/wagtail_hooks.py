@@ -66,7 +66,7 @@ class TagsModelAdmin(ModelAdmin):
 
 
 class ElementAdminGroup(ModelAdminGroup):
-    menu_label = "Элементы сайта"
+    menu_label = "Продукция"
     items = (ProductCategoryAdmin, ProductPageAdmin, TagsModelAdmin)
     menu_order = 200
 

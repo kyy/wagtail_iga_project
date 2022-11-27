@@ -1,4 +1,4 @@
-# modulename/templatetags/pagination.py
+
 import math
 import re
 from django import template

@@ -23,11 +23,11 @@
          <div class="card m-2 p-2">
             <article class="media">
                <div class="media-left">
-                  <figure class="image">
+                  <figure class="image mt-1">
                      {% with productpage=productpage.specific %}
                      {% with productpage.main_image as main_image %}
                      {% if main_image %}
-                     {% image main_image width-130 as main_image %}
+                     {% image main_image width-90 as main_image %}
                      <img src="{{ main_image.url }}" alt="Placeholder image"></a>
                      {% endif %}
                      {% endwith %}
@@ -37,34 +37,16 @@
                <div class="media-content">
                   <div class="content">
                      <p>
-                        <a class="m-1 is-size-5 has-text-weight-medium" href="{% pageurl productpage %}">
+                        <a class="m-1 is-size-5 has-text-weight-medium is-size-6-mobile" href="{% pageurl productpage %}">
                         {{ productpage.title }}
                         </a> <a class="m-3 is-size-7 has-text-weight-medium" href="{% slugurl 'products' %}categories/{{ productpage.categories.slug }}">
                         {{ productpage.categories.name }}
-                        </a>{{ productpage.latest_revision_created_at }}
+                        </a><br>
+                         {{ productpage.latest_revision_created_at|date:"M/d/Y"}}
                         <br>
                         {{ productpage.intro|richtext }}
                      </p>
                   </div>
-                  <nav class="level is-mobile">
-                     <div class="level-left">
-                        <a class="level-item" aria-label="reply">
-                        <span class="icon is-small">
-                        <i class="fas fa-reply" aria-hidden="true"></i>
-                        </span>
-                        </a>
-                        <a class="level-item" aria-label="retweet">
-                        <span class="icon is-small">
-                        <i class="fas fa-retweet" aria-hidden="true"></i>
-                        </span>
-                        </a>
-                        <a class="level-item" aria-label="like">
-                        <span class="icon is-small">
-                        <i class="fas fa-heart" aria-hidden="true"></i>
-                        </span>
-                        </a>
-                     </div>
-                  </nav>
                </div>
             </article>
          </div>

@@ -19,7 +19,7 @@ from django.shortcuts import render
 #constants
 max_product_image_numbers = 5
 min_product_image_numbers = 1
-pagination_number = 1
+pagination_number = 4
 
 links = {'new_product_category':
              '<a target="_blank" href="/admin/snippets/products/productcategory/add/"> создать категорию.</a>',
@@ -85,7 +85,7 @@ class ProductPageTag(TaggedItemBase):
 class ProductPage(Page):
     subpage_types = []
     parent_page_types = ['ProductIndexPage']
-    page_description = "Пополняйте каталог тут или в разделе - Элементы сайта/Продукция"
+    page_description = "Пополняйте каталог тут или в разделе - Продукция/Продукция"
     Page._meta.get_field("title").help_text = 'Данное имя может отображаться как заголовок.'
 
    # даем доступ к изображениям на странице
@@ -123,7 +123,7 @@ class ProductPage(Page):
                    heading='Категория',
                    help_text=mark_safe('Выберите категорию изделия. Если отсутствует подходящая, вы '
                                         'можете оставить поле пустым или'+links['new_product_category']+
-                                        '<br>Расположение категорий: Элементы сайта/Категории продукции/...')
+                                        '<br>Расположение категорий: Продукция/Категории продукции/...')
                    ),
         FieldPanel('intro',
                    heading='Полное наименование изделия'
@@ -168,6 +168,7 @@ class ProductTagIndexPage(Page):
     subpage_types = []
     parent_page_types = ['home.HomePage']
     page_description = "Корневая страница ведущая к запросу фильтр-тег"
+    max_count = 1
 
     def main_image(self):
         gallery_item = self.gallery_images.first()

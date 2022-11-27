@@ -1,16 +1,12 @@
 {% extends "base.html" %}
-{% load wagtailcore_tags wagtailimages_tags tags %}
+{% load wagtailcore_tags wagtailimages_tags tags bulma_themes%}
 
 
 {% block content %}
+
     {% live_categories_menu %}
 <div class="columns is-multiline is-centered">
    <div class="column is-12-mobile is-6-tablet">
-      <div class="media">
-         <div class="container">
-         </div>
-      </div>
-
          <div class="card">
             <div class="card-image">
                <figure class="image">
@@ -36,7 +32,7 @@
          </div>
    </div>
    <div class="column is-12-mobile is-6-tablet">
-      <div class="content is-small mx-3">
+      <div class="content is-small">
           <div class="card">
              <header class="card-header">
                 <p class="title is-size-5 pt-4 mx-3" >
@@ -62,6 +58,7 @@
       </div>
    </div>
 </div>
+
 {% endblock %}
 
 
