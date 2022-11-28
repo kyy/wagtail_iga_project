@@ -8,11 +8,8 @@ class SettingsAdmin(ModelAdmin):
     menu_label = "Главная"
     menu_icon = "doc-empty"
     list_display = ["title", "url_bulma_css", 'live',]
+    empty_value_display = "не используется"
 
-
-
-    def __str__(self):
-        return 'Главная'
 
 
 

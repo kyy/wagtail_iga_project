@@ -13,7 +13,7 @@ class HomePage(Page):
                      'products.ProductTagIndexPage',
                      ]
 
-    url_bulma_css = models.URLField(max_length=255, unique=True, choices=BULMA_CSS(), default=BULMA_CSS()[4])
+    url_bulma_css = models.URLField(max_length=255, unique=True, choices=BULMA_CSS(), default=BULMA_CSS()[4], verbose_name='CSS')
     txt_edit = RichTextField(
         blank=True,
         null=True,
@@ -41,8 +41,7 @@ class HomePage(Page):
     class Meta:
         verbose_name = 'Главная страница'
 
-    def __str__(self):
-        return HomePage.title
+
 
 
 
