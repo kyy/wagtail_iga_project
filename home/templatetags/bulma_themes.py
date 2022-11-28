@@ -1,6 +1,6 @@
 import requests
 from django import template
-from home.models import Settings
+from home.models import HomePage
 
 register = template.Library()
 
@@ -21,7 +21,7 @@ def CSS(context):
 @register.inclusion_tag('home/tags/CSS_link.html', takes_context=True)
 def CSS_link(context):
     try:
-        css_link = Settings.objects.live().get().url_bulma_css
+        css_link = HomePage.objects.live().get().url_bulma_css
     except: css_link = ''
     return {
         'css_link': css_link,

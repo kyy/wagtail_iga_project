@@ -1,6 +1,6 @@
+--upgrade pip
 Django>=4.1,<4.2
 wagtail>=4.1,<4.2
-
 ipython
 django-extensions
 django-werkzeug

@@ -22,7 +22,7 @@ min_product_image_numbers = 1
 pagination_number = 4
 
 links = {'new_product_category':
-             '<a target="_blank" href="/admin/snippets/products/productcategory/add/"> создать категорию.</a>',
+             '<a target="_blank" href="/admin/products/productcategory/create/"> создать категорию.</a>',
 }
                         # get all categories with live products:
 def live_categories():
