@@ -1,65 +1,74 @@
 {% extends "base.html" %}
-{% load wagtailcore_tags wagtailimages_tags tags bulma_themes%}
+{% load wagtailcore_tags wagtailimages_tags tags bulma_themes static %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/flickity.min.css' %}">
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/flickity.pkgd.min.js' %}"></script>
+{% endblock %}
 
 {% block content %}
-
-    {% live_categories_menu %}
+{% live_categories_menu %}
 <div class="columns is-multiline is-centered">
    <div class="column is-12-mobile is-6-tablet">
-         <div class="card">
-            <div class="card-image">
-               <figure class="image">
+      <div class="card">
+         <div class="card-image">
+            <figure class="image">
+               <div class="main-carousel" data-flickity='{
+                  "cellAlign": "left",
+                  "contain": true,
+                  "wrapAround": true,
+                  "draggable": >1,
+                  "lazyLoad": true,
+                  "selectedAttraction": 0.2,
+                  "friction": 0.8
+                  }'>
                   {% for item in page.gallery_images.all %}
-                  {% image item.image width-700 %}
-                  <figcaption class="container has-text-weight-medium is-italic has-text-centered is-size-7-mobile p-1 px-2 is-size-6">
-                     {{ item.caption }}
-                  </figcaption>
-                  {% endfor %}
-               </figure>
-            </div>
-            <div class="content p-3">
-               <div class="container">
-                  {% if page.tags.all.count %}
-                  <div class="tags is-centered">
-                     {% for tag in page.tags.all %}
-                     <a class="tag is-info" href="{% slugurl 'tags' %}?tag={{ tag.slug }}">{{ tag.name }}</a>
-                     {% endfor %}
+                  <div class="carousel-cell">
+                     {% image item.image fill-700x380 %}
                   </div>
-                  {% endif %}
+                  {% endfor %}
                </div>
+            </figure>
+         </div>
+         <div class="content p-3">
+            <div class="container">
+               {% if page.tags.all.count %}
+               <div class="tags is-centered">
+                  {% for tag in page.tags.all %}
+                  <a class="tag is-info" href="{% slugurl 'tags' %}?tag={{ tag.slug }}">{{ tag.name }}</a>
+                  {% endfor %}
+               </div>
+               {% endif %}
             </div>
          </div>
+      </div>
    </div>
    <div class="column is-12-mobile is-6-tablet">
       <div class="content is-small">
-          <div class="card">
-             <header class="card-header">
-                <p class="title is-size-5 pt-4 mx-3" >
-                   {{ page.title }}
-                </p>
-                <button class="card-header-icon" aria-label="more options">
-                <span class="icon">
-                <i class="fas fa-angle-down" aria-hidden="true"></i>
-                </span>
-                </button>
-             </header>
-             {% if page.categories %}
-             <p class="subtitle is-size-6 pt-3 mx-4 has-text-weight-medium">
-                {{ page.intro }}
-             </p>
-             {% endif %}
-          <div class="content mx-4 pb-3">
-                  {{ page.body|richtext }}
-
-          </div>
-          </div>
-           </div>
+         <div class="card">
+            <header class="card-header">
+               <p class="title is-size-5 pt-4 mx-3" >
+                  {{ page.title }}
+               </p>
+               <button class="card-header-icon" aria-label="more options">
+               <span class="icon">
+               <i class="fas fa-angle-down" aria-hidden="true"></i>
+               </span>
+               </button>
+            </header>
+            {% if page.categories %}
+            <p class="subtitle is-size-6 pt-3 mx-4 has-text-weight-medium">
+               {{ page.intro }}
+            </p>
+            {% endif %}
+            <div class="content mx-4 pb-3">
+               {{ page.body|richtext }}
+            </div>
+         </div>
       </div>
    </div>
 </div>
-
 {% endblock %}
-
-
-
