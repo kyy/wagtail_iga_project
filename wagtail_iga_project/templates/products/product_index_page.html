@@ -30,13 +30,13 @@
         {% with post=post.specific %}
         {% with post.main_image as main_image %}
         {% if main_image %}
-        {% image main_image width-305 as main_image %}
+        {% image main_image fill-305x200 as main_image %}
         <div class="column is-12-mobile is-6-tablet is-3-desktop">
             <div class="card">
                 <div class="card-image">
                     <figure class="image">
                     <a href="{{ self.url }}{{ post.slug }}">
-                    <img src="{{ main_image.url }}" alt="Placeholder image"></a>
+                    <img src="{{ main_image.url }}" alt="{{ main_image.caption }}"></a>
                      </figure>
                 </div>
                 {% endif %}
