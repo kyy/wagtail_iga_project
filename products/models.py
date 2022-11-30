@@ -19,7 +19,7 @@ from django.shortcuts import render
 #constants
 max_product_image_numbers = 5
 min_product_image_numbers = 1
-pagination_number = 4
+pagination_number = 12
 
 links = {'new_product_category':
              '<a target="_blank" href="/admin/products/productcategory/create/"> создать категорию.</a>',

@@ -13,7 +13,7 @@
 {% block content %}
     {% live_categories_menu %}
 <div class="columns is-multiline is-centered">
-   <div class="column is-12-mobile is-6-tablet">
+   <div class="column  is-12-mobile is-6-tablet">
          <div class="card">
             <div class="card-image">
                <figure class="image">
@@ -23,13 +23,14 @@
                    "wrapAround": true,
                    "lazyLoad": 2,
                    "imagesLoaded": true,
+                   "pageDots": false,
                    "selectedAttraction": 0.2,
                    "friction": 0.8
                    }'>
                     {% for item in page.gallery_images.all %}
-                  <div class="carousel-cell ">
+                  <div class="carousel-cell">
                     {% image item.image fill-700x380 as image %}
-                  <img src="https://via.placeholder.com/700x380"  alt="{{ image.caption }}" class="" onError="this.src='https://via.placeholder.com/700x380'" data-flickity-lazyload="{{ image.url }}"/>
+                  <img src="https://via.placeholder.com/{{ image.width}}x{{ image.height }}"  alt="{{ image.caption }}" class="" onError="this.src='https://via.placeholder.com/{{ image.width}}x{{ image.height }}'" data-flickity-lazyload="{{ image.url }}"/>
                   </div>
                    {% endfor %}
               </div>
@@ -74,15 +75,4 @@
    </div>
 </div>
 
-<script>
-requirejs( [ '{% static 'js/flickity.pkgd.min.js' %}">' ], function( Flickity ) {
-  var flkty = new Flickity( '.carousel', {
-    imagesLoaded: true
-  });
-});
-</script>
-
 {% endblock %}
-
-
-

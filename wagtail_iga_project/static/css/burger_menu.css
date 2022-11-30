@@ -24,7 +24,7 @@ html, body {
 }
 
 .header__logo {
-  flex: 0 0 60px;
+  flex: 0 0 46px;
 /*следующие две строки: картинка становится круглой*/
   border-radius: 50%;
   overflow: hidden;
@@ -45,7 +45,7 @@ html, body {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: #3a3a3a;
+  background-color: #000000;
   z-index: 2;
 }
 
@@ -53,7 +53,7 @@ html, body {
   position: relative;
   display: flex;
   justify-content: space-between;
-  height: 80px;
+  height: 50px;
   align-items: center;
 }
 
@@ -85,13 +85,6 @@ html, body {
     overflow: hidden;
   }
 
-  .header__body {
-    height: 50px;
-  }
-
-  .header__logo {
-    flex: 0 0 40px;
-  }
 
   .header__burger {
     display: block;
@@ -102,24 +95,24 @@ html, body {
   }
 
   .header__burger span {
-    background-color: #fff;
+    background-color: #ffffff;
     position: absolute;
     width: 100%;
     height: 2px;
     left: 0;
     top: 9px;
-    transition: all 0.3s ease 0.1s;
+    transition: all 0.05s ease 0.05s;
   }
 
   .header__burger:before,
   .header__burger:after {
     content: '';
-    background-color: #fff;
+    background-color: #ffffff;
     position: absolute;
     width: 100%;
     height: 2px;
     left: 0;
-    transition: all 0.6s ease 0.1s;
+    transition: all 0.05s ease 0.05s;
   }
 
   .header__burger:before {
@@ -131,12 +124,12 @@ html, body {
   }
 
   .header__burger.active:before {
-    transform: rotate(225deg);
+    transform: rotate(45deg);
     top: 9px;
   }
 
   .header__burger.active:after {
-    transform: rotate(-225deg);
+    transform: rotate(-45deg);
     bottom: 9px;
   }
 
@@ -152,9 +145,9 @@ html, body {
     height: 100%;
 /*для прокрутки меню, когда оно не помещается в экран*/
     overflow: auto;
-    background-color: #464646;
+    background-color: #313131;
     padding: 70px 10px 20px 10px;
-    transition: all 0.3s ease 0s;
+    transition: all 0.025s ease 0.1s;
   }
 
   .header__menu.active {

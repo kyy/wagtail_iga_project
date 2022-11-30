@@ -18,16 +18,14 @@
         {% if request.in_preview_panel %}
         <base target="_blank">
         {% endif %}
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+        <link rel="stylesheet" href="{% static 'css/bulma@0.9.4_css_bulma.css' %}">
         <link rel="stylesheet" href="{% CSS_link %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'css/wagtail_iga_project.css' %}">
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
-integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+        <link rel="stylesheet" href="{% static 'css/wagtail_iga_project.css' %}">
         {% block extra_css %}
         {% endblock %}
-
-        <script src="https://code.jquery.com/jquery-3.6.1.slim.min.js" integrity="sha256-w8CvhFs7iHNVUtnSP0YKEg00p9Ih13rlL9zGqvLdePA=" crossorigin="anonymous"></script>
-        <script type="text/javascript" src="{% static 'js/wagtail_iga_project.js' %}"></script>
+        <script src="{% static 'js/jquery-3.6.1.slim.js' %}"></script>
+        <script src="{% static 'js/wagtail_iga_project.js' %}"></script>
+        <script src="https://kit.fontawesome.com/1dc3b91b94.js" crossorigin="anonymous"></script>
         {% block extra_js %}
         {% endblock %}
     </head>

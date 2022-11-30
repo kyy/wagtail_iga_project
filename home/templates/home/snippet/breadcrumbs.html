@@ -1,6 +1,6 @@
 {% load wagtailcore_tags %}
 
-<nav class="breadcrumb has-arrow-separator is-small is-centered pt-6 mb-2" aria-label="breadcrumbs">
+<nav class="breadcrumb has-arrow-separator is-small is-centered pt-2 mb-2" aria-label="breadcrumbs">
    {% if self.get_ancestors|length > 1 %}
    <ul>
       {% for p in self.get_ancestors %}

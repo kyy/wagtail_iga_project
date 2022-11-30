@@ -30,20 +30,21 @@
         {% with post=post.specific %}
         {% with post.main_image as main_image %}
         {% if main_image %}
-        {% image main_image fill-305x200 as main_image %}
-        <div class="column is-12-mobile is-6-tablet is-3-desktop">
+        {% image main_image fill-305x200 as image %}
+        <div class="column is-12-mobile is-3-tablet is-2-desktop ">
             <div class="card">
                 <div class="card-image">
                     <figure class="image">
                     <a href="{{ self.url }}{{ post.slug }}">
-                    <img src="{{ main_image.url }}" alt="{{ main_image.caption }}"></a>
+                    <img src="{{ image.url }}" onError="this.src='https://via.placeholder.com/{{ image.width}}x{{ image.height }}" alt="{{ image.caption }}">
+                    </a>
                      </figure>
                 </div>
                 {% endif %}
                 {% endwith %}
                 <div class="content is-small mx-3">
-                    <h1 class="m-1 is-size-5">{{ post.title }}</h1>
-                    <p class="pb-3">{{ post.intro }}</p>
+                    <h1 class="m-1 is-size-3-mobile is-size-5-tablet is-size-6-desktop">{{ post.title }}</h1>
+                    <p class="pb-3 is-size-5-mobile">{{ post.intro }}</p>
                 </div>
             </div>
         </div>
