@@ -34,13 +34,12 @@
         {% include 'home/snippet/burger.html' %}
         <div class="section">
             <div class="container">
-            {% include 'home/snippet/breadcrumbs.html' %}
+            {% include 'home/snippet/breadcrumbs.html' %}   {# <<<< search snippet inside #}
                 {% block content %}
                 {% endblock %}
             </div>
         </div>
         {% block footer %}
-
         {% include 'home/snippet/footer.html' %}
         {% endblock %}
     </body>

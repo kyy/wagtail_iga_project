@@ -7,7 +7,7 @@ from modelcluster.fields import ParentalKey
 from taggit.models import TaggedItemBase
 from wagtail.admin.edit_handlers import FieldPanel
 from wagtail.admin.panels import InlinePanel
-from wagtail.contrib.routable_page.models import RoutablePageMixin, path
+from wagtail.contrib.routable_page.models import RoutablePageMixin, path, route
 from wagtail.fields import RichTextField
 from wagtail.models import Page, Orderable
 from wagtail.search import index
@@ -42,14 +42,20 @@ class ProductIndexPage(RoutablePageMixin, Page):
     parent_page_types = ['home.HomePage']
     page_description = "корневая страница для каталога продукции, также откроется по запросу all-categories/"
 
+    def get_context(self, request, *args, **kwargs):
+        context = super(ProductIndexPage, self).get_context(request, *args, **kwargs)
+        context['product_page'] = self
+        context['live_categories'] = live_categories
+        return context
+
+
     @path('')
     @path('all-categories/')
     def all_category_page(self, request):
         productpages = self.get_children().live().order_by('-first_published_at')
         return self.render(request, context_overrides={
             'title': self.title,
-            'productpages': pagination(request, pagination_number , productpages),
-            'live_categories': live_categories,
+            'productpages': pagination(request, pagination_number, productpages),
         })
 
     @path('categories/<str:cat_name>/', name='cat_url')
@@ -59,8 +65,15 @@ class ProductIndexPage(RoutablePageMixin, Page):
         current_cat = live_categories().get(slug=cat_name).name
         return self.render(request, context_overrides={
             'title': "%s" % current_cat,
-            'productpages': pagination(request, pagination_number , productpages),
-            'live_categories': live_categories,
+            'productpages': pagination(request, pagination_number, productpages),
+        })
+
+    @route(r"^search/$")
+    def post_search(self, request):
+        search_query = request.GET.get("q", None)
+        productpages = ProductPage.objects.search(search_query)
+        return self.render(request, context_overrides={
+            'productpages': pagination(request, pagination_number, productpages),
         })
 
 
@@ -68,6 +81,8 @@ class ProductIndexPage(RoutablePageMixin, Page):
     content_panels = Page.content_panels + [
         FieldPanel('intro', classname="full")
     ]
+
+
 
 
 class ProductPageTag(TaggedItemBase):
@@ -80,6 +95,7 @@ class ProductPageTag(TaggedItemBase):
     class Meta:
         verbose_name = 'Тег'
         verbose_name_plural = 'Теги'
+
 
 
 class ProductPage(Page):
