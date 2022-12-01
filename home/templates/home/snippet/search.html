@@ -1,14 +1,11 @@
-{% load wagtailroutablepage_tags %}
+{% load wagtailroutablepage_tags wagtailcore_tags %}
 
-<form role="search" class="search-products" method="get" action="{% routablepageurl product_page "post_search" %}">
-    <div class="field has-addons m-2">
-        <div class="control">
-            <input type="text" class="input is-small" name="q" placeholder="Найти&hellip;">
-        </div>
-        <div class="control">
-            <a class="button is-info is-small">
-                Go
-            </a>
-        </div>
-    </div>
+
+<form role="search" class="search-products field has-addons m-2" method="get" action="{% slugurl 'products' %}search">
+
+            <input type="text" class="input is-small is-warning is-outlined" name="q" placeholder="Найти&hellip;">
+           <button class="button is-warning is-outlined is-small" type="submit">
+                Go!
+            </button>
+
 </form>

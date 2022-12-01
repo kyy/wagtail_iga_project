@@ -1,5 +1,6 @@
 import os
 
+from django.template.defaultfilters import slugify, urlencode
 from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register, ModelAdminGroup
 from wagtail.snippets.models import register_snippet
 

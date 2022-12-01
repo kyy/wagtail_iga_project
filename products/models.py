@@ -48,7 +48,6 @@ class ProductIndexPage(RoutablePageMixin, Page):
         context['live_categories'] = live_categories
         return context
 
-
     @path('')
     @path('all-categories/')
     def all_category_page(self, request):
@@ -66,9 +65,9 @@ class ProductIndexPage(RoutablePageMixin, Page):
         return self.render(request, context_overrides={
             'title': "%s" % current_cat,
             'productpages': pagination(request, pagination_number, productpages),
-        })
+            })
 
-    @route(r"^search/$")
+    @route(r"^search/$", name='post_search')
     def post_search(self, request):
         search_query = request.GET.get("q", None)
         productpages = ProductPage.objects.search(search_query)
@@ -83,8 +82,6 @@ class ProductIndexPage(RoutablePageMixin, Page):
     ]
 
 
-
-
 class ProductPageTag(TaggedItemBase):
 
     content_object = ParentalKey(
@@ -97,12 +94,13 @@ class ProductPageTag(TaggedItemBase):
         verbose_name_plural = 'Теги'
 
 
-
 class ProductPage(Page):
     subpage_types = []
     parent_page_types = ['ProductIndexPage']
     page_description = "Пополняйте каталог тут или в разделе - Продукция/Продукция"
     Page._meta.get_field("title").help_text = 'Данное имя может отображаться как заголовок.'
+
+
 
    # даем доступ к изображениям на странице
     def main_image(self):
