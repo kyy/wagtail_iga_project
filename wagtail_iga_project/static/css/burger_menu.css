@@ -36,6 +36,7 @@ html, body {
   max-width: 100%;
 /*убирает нижнее подрезание для круглой картинки*/
   display: block;
+
 }
 
 .header:before{
@@ -55,6 +56,7 @@ html, body {
   justify-content: space-between;
   height: 50px;
   align-items: center;
+
 }
 
 .header__burger {

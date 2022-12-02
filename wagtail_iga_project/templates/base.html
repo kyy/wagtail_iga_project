@@ -31,10 +31,10 @@
     </head>
     <body class="{% block body_class %}{% endblock %}">
         {% wagtailuserbar %}
-        {% include 'home/snippet/burger.html' %}
+        {% include 'home/snippet/burger.html' %} {# <<<< search snippet inside #}
         <div class="section">
             <div class="container">
-            {% include 'home/snippet/breadcrumbs.html' %}   {# <<<< search snippet inside #}
+            {% include 'home/snippet/breadcrumbs.html' %}
                 {% block content %}
                 {% endblock %}
             </div>

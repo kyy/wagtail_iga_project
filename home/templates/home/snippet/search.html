@@ -2,8 +2,12 @@
 
 
 <form role="search" class="search-products field has-addons m-2" method="get" action="{% slugurl 'products' %}search">
-
+<p class="control has-icons-left">
             <input type="text" class="input is-small is-warning is-outlined" name="q" placeholder="Найти&hellip;">
+              <span class="icon is-left">
+                <i class="fas fa-search" aria-hidden="true"></i>
+              </span>
+</p>
            <button class="button is-warning is-outlined is-small" type="submit">
                 Go!
             </button>

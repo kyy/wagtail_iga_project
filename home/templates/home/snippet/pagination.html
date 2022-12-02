@@ -1,95 +1,50 @@
-{% load i18n pagination %}
-
+{% load i18n %}
 {% spaceless %}
-  {% if productpages.paginator.num_pages > 1 %}
-    {% with request.get_full_path as path %}
-      <div class="field is-grouped is-grouped-multiline is-grouped-centered buttons are-small">
+<div class="field is-grouped is-grouped-multiline is-grouped-centered buttons are-small">
+   {% if productpages.has_previous %}
 
-          {% if productpages.number > 2 %}
-            <p class="control ">
-              <a class="button is-info is-outlined" href="{{ path|remove_page }}" title="{% trans 'Первая' %}">1</a>
-            </p>
+   {% if productpages.number > 2 %}
+   <p class="control">
+      <a class="button is-info is-outlined" href="?page=1" title='Первая'>1</a>
+   </p>
+   {% if productpages.number > 3 %}
 
-          {% endif %}
-
-          {% with productpages.number|add:-112|round:-1000 as prev_1000 %}
-            {% if prev_1000 > 0 %}
-              <p class="control ">
-                <a class="button is-info is-outlined is-normal has-text-weight-bold" href="{{ path|set_page:prev_1000 }}">{{ prev_1000 }}</a>
-              </p>
-            {% endif %}
-          {% endwith %}
-
-          {% with productpages.number|add:-12|round:-100 as prev_100 %}
-            {% if prev_100 > 0 %}
-              <p class="control ">
-                <a class="button is-info is-outlined is-normal has-text-weight-bold" href="{{ path|set_page:prev_100 }}">{{ prev_100 }}</a>
-              </p>
-            {% endif %}
-          {% endwith %}
-
-          {% with productpages.number|add:-2|round:-10 as prev_10 %}
-            {% if prev_10 > 0 %}
-              <p class="control ">
-                <a class="button is-info is-outlined is-normal has-text-weight-bold" href="{{ path|set_page:prev_10 }}">{{ prev_10 }}</a>
-              </p>
-            {% endif %}
-          {% endwith %}
-
-          {% if productpages.has_previous %}
-            {% with productpages.number|add:-1 as prev_number %}
-              <p class="control ">
-                <a class="button is-info is-outlined" href="{% if prev_number == 1 %}{{ path|remove_page }}{% else %}{{ path|set_page:prev_number }}{% endif %}">{{ prev_number }}</a>
-              </p>
-            {% endwith %}
-          {% endif %}
-
-          <p class="control ">
-            <a class="button is-info is-outlined has-background-info is-static has-text-white has-text-weight-bold" href="{{ path }}">{{ productpages.number }}</a>
-          </p>
-
-          {% if productpages.has_next %}
-            {% with productpages.number|add:1 as next_number %}
-              <p class="control ">
-                <a class="button is-info is-outlined" href="{% if prev_number == 1 %}{{ path|remove_page }}{% else %}{{ path|set_page:next_number }}{% endif %}">{{ next_number }}</a>
-              </p>
-            {% endwith %}
-          {% endif %}
-
-          {% with productpages.number|add:2|round:10 as next_10 %}
-            {% if next_10 <= productpages.paginator.num_pages %}
-              <p class="control ">
-                <a class="button is-info is-outlined is-normal has-text-weight-bold" href="{{ path|set_page:next_10 }}">{{ next_10 }}</a>
-              </p>
-            {% endif %}
-          {% endwith %}
-
-          {% with productpages.number|add:12|round:100 as next_100 %}
-            {% if next_100 <= productpages.paginator.num_pages %}
-              <p class="control ">
-                <a class="button is-info is-outlined is-normal has-text-weight-bold" href="{{ path|set_page:next_100 }}">{{ next_100 }}</a>
-              </p>
-            {% endif %}
-          {% endwith %}
-
-          {% with productpages.number|add:112|round:1000 as next_1000 %}
-            {% if next_1000 <= productpages.paginator.num_pages %}
-              <p class="control ">
-                <a class="button is-info is-outlined is-normal has-text-weight-bold" href="{{ path|set_page:next_1000 }}">{{ next_1000 }}</a>
-              </p>
-            {% endif %}
-          {% endwith %}
-
-          {% if productpages.number|add:2 <= productpages.paginator.num_pages %}
-
-            <p class="control ">
-              <a class="button is-info is-outlined" href="{{ path|set_page:productpages.paginator.num_pages }}" title={% trans 'Последняя' %}>{{ productpages.paginator.num_pages }}</a>
-            </p>
-          {% endif %}
+   {% endif %}
+   {% endif %}
+        <p class="control">
+      <a class="button is-info is-outlined" href="?page={{ productpages.previous_page_number }}" title='Предыдущая'><i class="fa-solid fa-chevron-left"></i></a>
+   </p>
+   {% endif %}
 
 
-      </div>
-    {% endwith %}
-  {% endif %}
+   {% for num in productpages.paginator.page_range %}
+   {% if productpages.number == num %}
+   <p class="control">
+      <a class="button is-info is-outlined has-background-info is-static has-text-white has-text-weight-bold" href="?page={{ num }}" title='{{ num }}'>{{ num }}/{{ productpages.paginator.num_pages }}</a>
+   </p>
+   {% elif num > productpages.number and num < productpages.number %}
+   <p class="control">
+      <a class="button is-info is-outlined" href="?page={{ num }}" title='{{ num }}'>{{ num }}</a>
+   </p>
+   {% endif %}
+   {% endfor %}
+
+
+   {% if productpages.has_next %}
+         <p class="control ">
+      <a class="button is-info is-outlined" href="?page={{ productpages.next_page_number }}" title=Следующая><i class="fa-solid fa-chevron-right"></i></a>
+   </p>
+   {% if productpages.number < productpages.paginator.num_pages|add:'-2' %}
+
+   <p class="control ">
+      <a class="button is-info is-outlined" href="?page={{ productpages.paginator.num_pages }}" title='{{ productpages.paginator.num_pages }}'>{{ productpages.paginator.num_pages }}</a>
+   </p>
+   {% elif productpages.number < productpages.paginator.num_pages|add:'-1' %}
+   <p class="control ">
+      <a class="button is-info is-outlined" href="?page={{ productpages.paginator.num_pages }}" title='{{ productpages.paginator.num_pages }}'>{{ productpages.paginator.num_pages }}</a>
+   </p>
+   {% endif %}
+
+   {% endif %}
+</div>
 {% endspaceless %}
-
