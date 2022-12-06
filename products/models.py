@@ -44,8 +44,10 @@ class ProductIndexPage(RoutablePageMixin, Page):
 
     def get_context(self, request, *args, **kwargs):
         context = super(ProductIndexPage, self).get_context(request, *args, **kwargs)
+        tags_all = Tag.objects.exclude(products_productpagetag_items__content_object__isnull=True)
         context['product_page'] = self
         context['live_categories'] = live_categories
+        context['tags_all'] = tags_all
         return context
 
     @path('')
@@ -57,7 +59,7 @@ class ProductIndexPage(RoutablePageMixin, Page):
             'productpages': pagination(request, pagination_number, productpages),
         })
 
-    @path('categories/<str:cat_name>/', name='cat_url')
+    @path('categories/<str:cat_name>/')
     def current_category_page(self, request, cat_name=None):
         productpages = ProductPage.objects.live().filter(categories__slug__iexact=cat_name).order_by \
             ('-first_published_at')
@@ -67,7 +69,17 @@ class ProductIndexPage(RoutablePageMixin, Page):
             'productpages': pagination(request, pagination_number, productpages),
             })
 
-    @route(r"^search/$", name='post_search')
+    @path('tags/')
+    def current_tag(self, request):
+        tag = request.GET.getlist('tag')
+        productpages = ProductPage.objects.filter(tags__slug__in=tag).order_by('categories__name')
+        return self.render(request, context_overrides={
+            'title': "",
+            'productpages': pagination(request, pagination_number, productpages),
+            })
+
+
+    @route(r"^search/$")
     def post_search(self, request):
         search_query = request.GET.get("q", None)
         productpages = ProductPage.objects.search(search_query)

@@ -1,0 +1,31 @@
+{% load wagtailcore_tags %}
+
+<div class="media">
+     <div class="container">
+        <div class="tags is-centered">
+           {% for tag in tags_all %}
+           <a class="tag {% if request.GET.tag == tag.slug %} is_disabled is-warning {% else %} is-info {% endif %}" href="{% slugurl 'products' %}tags/?tag={{ tag.slug }}">
+           {{ tag.name }}
+           </a>
+        {% endfor %}
+                </div>
+     </div>
+</div>
+
+
+
+
+
+
+{#<form action="." method="get">#}
+{#    {% for tag in tags_all %}#}
+{#               <label>#}
+{##}
+{#      <input type="checkbox" name="tag" value="{{ tag.slug }}">#}
+{#      {{ tag.name }}#}
+{#    </label><br>#}
+{#    {% endfor %}#}
+{#               <input type="submit" value="Submit">#}
+{#</form>#}
+
+
