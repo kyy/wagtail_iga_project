@@ -53,7 +53,11 @@ class ProductIndexPage(RoutablePageMixin, Page):
     @path('')
     @path('all-categories/')
     def all_category_page(self, request):
-        productpages = self.get_children().live().order_by('-first_published_at')
+        tag = request.GET.getlist('tag')
+        if tag:
+            productpages = ProductPage.objects.filter(tags__slug__in=tag)
+        else:
+            productpages = self.get_children().live().order_by('-first_published_at')
         return self.render(request, context_overrides={
             'title': self.title,
             'productpages': pagination(request, pagination_number, productpages),
@@ -61,11 +65,19 @@ class ProductIndexPage(RoutablePageMixin, Page):
 
     @path('categories/<str:cat_name>/')
     def current_category_page(self, request, cat_name=None):
-        productpages = ProductPage.objects.live().filter(categories__slug__iexact=cat_name).order_by \
-            ('-first_published_at')
+        tag = request.GET.getlist('tag')
+        productpages_cat = ProductPage.objects.live().filter(categories__slug__iexact=cat_name).order_by('-first_published_at')
+        if tag:
+            productpages = ProductPage.objects.filter(tags__slug__in=tag).filter(categories__slug__iexact=cat_name).order_by('categories__name')
+        else:
+            productpages = productpages_cat
         current_cat = live_categories().get(slug=cat_name).name
+        tag_cat_id = list(set(productpages_cat.values_list('tags', flat=True)))
+        tags_all = Tag.objects.exclude(products_productpagetag_items__content_object__isnull=True).filter(id__in=tag_cat_id)
+        # tags_all = Tag.objects.exclude(products_productpagetag_items__content_object__isnull=True).filter(products_productpagetag_items__content_object__in=productpages_cat)
         return self.render(request, context_overrides={
             'title': "%s" % current_cat,
+            'tags_all': tags_all,
             'productpages': pagination(request, pagination_number, productpages),
             })
 
