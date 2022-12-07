@@ -12,6 +12,8 @@ from wagtail.fields import RichTextField
 from wagtail.models import Page, Orderable
 from wagtail.search import index
 from taggit.models import Tag
+from wagtail.search.models import Query
+from wagtail.search.query import Fuzzy
 from wagtail.snippets.models import register_snippet
 from django.shortcuts import render
 
@@ -50,17 +52,22 @@ class ProductIndexPage(RoutablePageMixin, Page):
         context['tags_all'] = tags_all
         return context
 
-    @path('')
-    @path('all-categories/')
-    def all_category_page(self, request):
+    def get_tag(self, request):
         tag = request.GET.getlist('tag')
         if tag:
             productpages = ProductPage.objects.filter(tags__slug__in=tag)
         else:
             productpages = self.get_children().live().order_by('-first_published_at')
+        return productpages
+
+
+
+    @path('')
+    @path('all-categories/')
+    def all_category_page(self, request):
         return self.render(request, context_overrides={
-            'title': self.title,
-            'productpages': pagination(request, pagination_number, productpages),
+            'title': 'Вся продукция',
+            'productpages': pagination(request, pagination_number, self.get_tag(request)),
         })
 
     @path('categories/<str:cat_name>/')
@@ -74,19 +81,9 @@ class ProductIndexPage(RoutablePageMixin, Page):
         current_cat = live_categories().get(slug=cat_name).name
         tag_cat_id = list(set(productpages_cat.values_list('tags', flat=True)))
         tags_all = Tag.objects.exclude(products_productpagetag_items__content_object__isnull=True).filter(id__in=tag_cat_id)
-        # tags_all = Tag.objects.exclude(products_productpagetag_items__content_object__isnull=True).filter(products_productpagetag_items__content_object__in=productpages_cat)
         return self.render(request, context_overrides={
             'title': "%s" % current_cat,
             'tags_all': tags_all,
-            'productpages': pagination(request, pagination_number, productpages),
-            })
-
-    @path('tags/')
-    def current_tag(self, request):
-        tag = request.GET.getlist('tag')
-        productpages = ProductPage.objects.filter(tags__slug__in=tag).order_by('categories__name')
-        return self.render(request, context_overrides={
-            'title': "",
             'productpages': pagination(request, pagination_number, productpages),
             })
 
@@ -94,8 +91,16 @@ class ProductIndexPage(RoutablePageMixin, Page):
     @route(r"^search/$")
     def post_search(self, request):
         search_query = request.GET.get("q", None)
-        productpages = ProductPage.objects.search(search_query)
+        if search_query:
+            Query.get(search_query).add_hit()
+            productpages = ProductPage.objects.live().search(search_query, operator="or")
+            title = 'Поиск'
+        else:
+            productpages = self.get_tag(request)
+            title = 'Вся продукция'
         return self.render(request, context_overrides={
+            'title': title,
+            'query':  search_query,
             'productpages': pagination(request, pagination_number, productpages),
         })
 
@@ -124,8 +129,6 @@ class ProductPage(Page):
     page_description = "Пополняйте каталог тут или в разделе - Продукция/Продукция"
     Page._meta.get_field("title").help_text = 'Данное имя может отображаться как заголовок.'
 
-
-
    # даем доступ к изображениям на странице
     def main_image(self):
         gallery_item = self.gallery_images.first()
@@ -150,7 +153,7 @@ class ProductPage(Page):
     search_fields = Page.search_fields + [
         index.SearchField('intro'),
         index.SearchField('body'),
-    ]
+     ]
 
     content_panels = Page.content_panels + [
         FieldPanel('tags',

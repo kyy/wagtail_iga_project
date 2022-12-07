@@ -18,9 +18,8 @@
         {% endfor %}
 </div>
 
-
     {% include 'products/snippet/tags.html' %}
-
+    {% if query %} <div class="content is-size-6 mb-1">Поиск по запросу: <b>{{ query }}</b></div> {% endif %}
 
 <div class="products-cards">
     <div class="level is-hidden-mobile">

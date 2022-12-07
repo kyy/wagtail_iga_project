@@ -41,7 +41,7 @@
                   {% if page.tags.all.count %}
                   <div class="tags is-centered">
                      {% for tag in page.tags.all %}
-                     <a class="tag is-info" href="{% slugurl 'products' %}tags/?tag={{ tag.slug }}">{{ tag.name }}</a>
+                     <a class="tag is-info" href="{% slugurl 'products' %}?tag={{ tag.slug }}">{{ tag.name }}</a>
                      {% endfor %}
                   </div>
                   {% endif %}

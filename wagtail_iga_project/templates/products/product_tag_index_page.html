@@ -10,7 +10,7 @@
          <div class="container">
             <div class="tags is-centered">
                {% for tag in tags_all %}
-               <a class="tag {% if request.GET.tag == tag.slug %} is_disabled is-warning {% else %} is-info {% endif %}" href="{% slugurl 'tag' %}?tag={{ tag.slug }}">
+               <a class="tag {% if tag.slug in request.GET.tag %} is_disabled is-warning {% else %} is-info {% endif %}" href="{% slugurl 'tag' %}?tag={{ tag.slug }}">
                {{ tag.name }}
                </a>
                {% endfor %}
