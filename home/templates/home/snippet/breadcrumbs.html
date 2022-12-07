@@ -8,14 +8,10 @@
           <li><a href="{{ p.url }}">{{ p.title }}</a></li>
           {% endif %}
       {% endfor %}
-
       {% if page.categories %}
 <li><a href="{% slugurl 'products' %}categories/{{ page.categories.slug }}">{{ page.categories.name }}</a></li>
       {% endif %}
-
           {% if title %}
-
-
               {% for post in live_categories %}
                   {% if  title == post.name %}
 <li><a href="{% slugurl 'products' %}">{{ self.title }}</a></li>

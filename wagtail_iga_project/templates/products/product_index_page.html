@@ -17,9 +17,12 @@
         </p>
         {% endfor %}
 </div>
-
     {% include 'products/snippet/tags.html' %}
-    {% if query %} <div class="content is-size-6 mb-1">Поиск по запросу: <b>{{ query }}</b></div> {% endif %}
+    {% if query %}
+        <article class="message mb-1">
+            <div class="message-body"> По вашему запросу <b>{{ query }}</b> найдено:
+            </div>
+        </article> {% endif %}
 
 <div class="products-cards">
     <div class="level is-hidden-mobile">
@@ -58,7 +61,6 @@
 <div class="">
     {% include 'home/snippet/pagination.html' %}
 </div>
-
 </div>
 
 {% endblock %}
