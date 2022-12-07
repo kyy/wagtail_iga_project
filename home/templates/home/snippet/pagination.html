@@ -1,8 +1,9 @@
 {% load i18n %}
 {% spaceless %}
-<div class="field is-grouped is-grouped-multiline is-grouped-centered buttons are-small">
-   {% if productpages.has_previous %}
 
+    {% if productpages.paginator.num_pages > 2  %}
+<div class="field is-grouped is-grouped-multiline is-grouped-centered buttons are-small">
+    {% if productpages.has_previous %}
    {% if productpages.number > 2 %}
    <p class="control">
       <a class="button is-info is-outlined" href="?page=1" title='Первая'>1</a>
@@ -47,4 +48,5 @@
 
    {% endif %}
 </div>
+     {% endif %}
 {% endspaceless %}

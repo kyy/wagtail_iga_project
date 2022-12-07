@@ -1,16 +1,18 @@
 {% load wagtailcore_tags %}
 
+{% if tags_all %}
 <div class="media mb-3">
      <div class="container">
         <div class="tags is-centered">
            {% for tag in tags_all %}
-           <a class="tag {% if tag.slug in request.GET.tag or tags_all.count == 1 %} is_disabled is-warning {% else %} is-info {% endif %}" href="?tag={{ tag.slug }}">
-           {{ tag.name }}
+           <a class="tag {% if tag.slug in request.GET.tag or tags_all.count == 1 %} is_disabled is-info {% else %} is-light {% endif %}" href="?tag={{ tag.slug }}">
+           {{ tag.name|lower }}
            </a>
         {% endfor %}
         </div>
      </div>
 </div>
+{% endif %}
 
 
 {#<form action="." method="get">#}

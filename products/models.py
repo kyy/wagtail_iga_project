@@ -13,9 +13,6 @@ from wagtail.models import Page, Orderable
 from wagtail.search import index
 from taggit.models import Tag
 from wagtail.search.models import Query
-from wagtail.search.query import Fuzzy
-from wagtail.snippets.models import register_snippet
-from django.shortcuts import render
 
 
 #constants
@@ -60,10 +57,7 @@ class ProductIndexPage(RoutablePageMixin, Page):
             productpages = self.get_children().live().order_by('-first_published_at')
         return productpages
 
-
-
     @path('')
-    @path('all-categories/')
     def all_category_page(self, request):
         return self.render(request, context_overrides={
             'title': 'Вся продукция',
@@ -87,7 +81,6 @@ class ProductIndexPage(RoutablePageMixin, Page):
             'productpages': pagination(request, pagination_number, productpages),
             })
 
-
     @route(r"^search/$")
     def post_search(self, request):
         search_query = request.GET.get("q", None)
@@ -103,7 +96,6 @@ class ProductIndexPage(RoutablePageMixin, Page):
             'query':  search_query,
             'productpages': pagination(request, pagination_number, productpages),
         })
-
 
     intro = RichTextField(blank=True)
     content_panels = Page.content_panels + [
