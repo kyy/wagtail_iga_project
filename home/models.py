@@ -4,7 +4,6 @@ from wagtail.admin.edit_handlers import FieldPanel
 from wagtail.admin.panels import TabbedInterface, ObjectList
 from wagtail.core.fields import RichTextField
 from wagtail.models import Page
-
 from products.models import ProductIndexPage
 from .BuisnessLogic import BULMA_CSS
 

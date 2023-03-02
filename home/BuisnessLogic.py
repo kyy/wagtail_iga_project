@@ -1,7 +1,6 @@
 import requests
 
 
-
 def BULMA_CSS():
     url = 'https://jenil.github.io/bulmaswatch/api/themes.json'
     bulma = requests.get(url).json()

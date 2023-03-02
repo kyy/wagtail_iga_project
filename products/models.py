@@ -1,3 +1,4 @@
+import wagtail.models
 from django import forms
 from django.core.paginator import Paginator
 from django.db import models
@@ -59,8 +60,9 @@ class ProductIndexPage(RoutablePageMixin, Page):
 
     @path('')
     def all_category_page(self, request):
+        products_page = Page.objects.get(id=ProductIndexPage.objects.first().id)
         return self.render(request, context_overrides={
-            'title': 'Вся продукция',
+            'title': products_page.title,
             'productpages': pagination(request, pagination_number, self.get_tag(request)),
         })
 
