@@ -1,6 +1,5 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/username/public_html/
-    - /bin/cp -R folder $DEPLOYPATH
-    - /bin/cp file.name $DEPLOYPATH
+    - export DEPLOYPATH=/home/host1703/deploy/
+    - /bin/cp -R * $DEPLOYPATH
